@@ -19,8 +19,6 @@ void rational::normalize( ){
 	if( this->denum == 0 ) 
 		throw std::runtime_error( "division by 0" );
 
-	//this->num = (this->num >= 0) ? this->num : - this->num;
-	//this->denum = (this->denum >= 0) ? this->denum : - this->denum;
 	if (this->num < 0 && this->denum < 0){
 		this->num = - this->num;
 		this->denum = - this->denum;
@@ -70,6 +68,7 @@ bool operator == ( const rational& r1, const rational& r2 ){
 
 bool operator != ( const rational& r1, const rational& r2 ){
 	return (r1.num != r2.num) || (r1.denum != r2.denum);
+	// return ! operator == (r1,r2); 
 }
 
 std::ostream& operator << ( std::ostream& stream, const rational& r ){

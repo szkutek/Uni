@@ -22,7 +22,7 @@ int main( int argc, char* argv [ ] )
    std::cout << m1. determinant( ) << "\n";
 
    std::cout << m1. adjugate( ) << "\n";
-   //std::cout << m1. inverse( ) * m1 << "\n";
+   //std::cout << m1. inverse( )  << "\n"; bo wyznacznik m1 jest rowny 0
 
    //rational z1( 2, 0 );
    //std::cout << z1 << "\n";
@@ -33,7 +33,22 @@ int main( int argc, char* argv [ ] )
    std::cout << mx1 * mx2 << "\n";
    std::cout << mx1.inverse() << "\n";
 
-  
+   //SPRAWDZENIE
+   matrix pom1 = m1*m2;
+   matrix pom2 = m2*m3;
+
+   std::cout << (pom1*m3) - (m1*pom2) << "\n";
+
+   std::cout << (m1*(m2+m3)) - (m1*m2 + m1*m3) << "\n";
+   std::cout << (m1+m2)*m3 - (m1*m3 + m2*m3) << "\n";
+
+   std::cout << mx1.determinant()*m2.determinant() << 
+	", " << (mx1*m2).determinant() << "\n";
+
+   std::cout << m2 * m2.inverse()  << "\n";
+   std::cout << m2.inverse() * m2  << "\n";
+   
+
    
    return 0;
 }
