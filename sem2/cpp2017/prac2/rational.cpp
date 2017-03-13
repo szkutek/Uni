@@ -1,28 +1,84 @@
-
+#include <cmath>
 #include "rational.h"
 
-// Complete these methods:
+int rational::gcd( int n1, int n2 ){
+	int k = 0;
+	if (n1<n2){
+		k = n2; 
+		n2 = n1; n1 = k;
+	}
+	while (n2!=0) {
+		k = n1 % n2;
+		n1 = n2;
+		n2 = k;
+    	}
+	return n1;
+}
 
-#if 0 
+void rational::normalize( ){
+	if( this->denum == 0 ) 
+		throw std::runtime_error( "division by 0" );
 
-int rational::gcd( int n1, int n2 );
+	//this->num = (this->num >= 0) ? this->num : - this->num;
+	//this->denum = (this->denum >= 0) ? this->denum : - this->denum;
+	if (this->num < 0 && this->denum < 0){
+		this->num = - this->num;
+		this->denum = - this->denum;
+	}
+	else if (this->num > 0 && this->denum < 0){
+		this->num = - this->num;
+		this->denum = - this->denum;
+	}
+	else if (this->num == 0){
+		this->denum = 1;
+	}
 
-void rational::normalize( );
+	int k = rational::gcd( abs(this->num), this->denum );
+	if (k>1){
+		this->num   /= k;
+		this->denum /= k;
+	}
+}
 
-rational operator - ( rational r );
+rational operator - ( rational r ){
+	return rational( -r.num, r.denum );
+}
 
-rational operator + ( const rational& r1, const rational& r2 );
+rational operator + ( const rational& r1, const rational& r2 ){
+	int denum = r1.denum * r2.denum;
+	int num = r1.num * r2.denum + r2.num * r1.denum;
+	return rational(num, denum);
+}
 
-rational operator - ( const rational& r1, const rational& r2 );
+rational operator - ( const rational& r1, const rational& r2 ){
+	int denum = r1.denum * r2.denum;
+	int num = r1.num * r2.denum - r2.num * r1.denum;
+	return rational(num, denum);
+}
 
-rational operator * ( const rational& r1, const rational& r2 );
+rational operator * ( const rational& r1, const rational& r2 ){
+	return rational(r1.num * r2.num, r1.denum * r2.denum);
+}
 
-rational operator / ( const rational& r1, const rational& r2 );
+rational operator / ( const rational& r1, const rational& r2 ){
+	return rational(r1.num * r2.denum, r1.denum * r2.num);
+}
 
-bool operator == ( const rational& r1, const rational& r2 );
-bool operator != ( const rational& r1, const rational& r2 );
+bool operator == ( const rational& r1, const rational& r2 ){
+	return (r1.num == r2.num) && (r1.denum == r2.denum);
+}
 
-std::ostream& operator << ( std::ostream& stream, const rational& r ) ;
+bool operator != ( const rational& r1, const rational& r2 ){
+	return (r1.num != r2.num) || (r1.denum != r2.denum);
+}
 
-#endif
+std::ostream& operator << ( std::ostream& stream, const rational& r ){
+	if (r.denum == 1){
+		stream << r.num;
+	}
+	else {
+		stream << r.num << "/" << r.denum;
+	}
+	return stream; 
+}
 
