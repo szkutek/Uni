@@ -1,14 +1,10 @@
 #include <cmath>
 #include "rational.h"
 
+
 int rational::gcd( int n1, int n2 ){
-	int k = 0;
-	if (n1<n2){
-		k = n2; 
-		n2 = n1; n1 = k;
-	}
 	while (n2!=0) {
-		k = n1 % n2;
+		int k = n1 % n2;
 		n1 = n2;
 		n2 = k;
     	}
@@ -19,24 +15,24 @@ void rational::normalize( ){
 	if( this->denum == 0 ) 
 		throw std::runtime_error( "division by 0" );
 
-	if (this->num < 0 && this->denum < 0){
-		this->num = - this->num;
-		this->denum = - this->denum;
-	}
-	else if (this->num > 0 && this->denum < 0){
-		this->num = - this->num;
-		this->denum = - this->denum;
-	}
-	else if (this->num == 0){
-		this->denum = 1;
+	if (this->num == 0){
+	  this->denum = 1;
+          return;
 	}
 
-	int k = rational::gcd( abs(this->num), this->denum );
-	if (k>1){
+	int k = rational::gcd(this->num, this->denum );
+	//if (k>1){
 		this->num   /= k;
 		this->denum /= k;
-	}
+	//}
+
+ 	if (this->denum < 0){
+		this->num = - this->num;
+		this->denum = - this->denum;
+        }
+
 }
+
 
 rational operator - ( rational r ){
 	return rational( -r.num, r.denum );
@@ -67,8 +63,9 @@ bool operator == ( const rational& r1, const rational& r2 ){
 }
 
 bool operator != ( const rational& r1, const rational& r2 ){
-	return (r1.num != r2.num) || (r1.denum != r2.denum);
-	// return ! operator == (r1,r2); 
+	//return (r1.num != r2.num) || (r1.denum != r2.denum);
+	//return !(operator==(r1,r2)); 
+	return !(r1==r2);
 }
 
 std::ostream& operator << ( std::ostream& stream, const rational& r ){
