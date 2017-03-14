@@ -42,6 +42,10 @@ int main( int argc, char* argv [ ] )
    std::cout << (m1*(m2+m3)) - (m1*m2 + m1*m3) << "\n";
    std::cout << (m1+m2)*m3 - (m1*m3 + m2*m3) << "\n";
 
+	
+   vector v = {{1,2},{2,3}};
+   std::cout << (m1*m2)(v) << ", " << m1(m2(v)) << "\n";
+	
    std::cout << mx1.determinant()*m2.determinant() << 
 	", " << (mx1*m2).determinant() << "\n";
 
