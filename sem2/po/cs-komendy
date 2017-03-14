@@ -1,0 +1,6 @@
+
+mcs -t:library Lista.cs 
+mcs -r:Lista.dll Program.cs
+./Program.exe
+
+
