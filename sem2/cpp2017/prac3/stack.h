@@ -31,19 +31,38 @@ class stack
 public:
 	stack( )
 		:current_size{0},
-		 current_capacity{}
+		 current_capacity{0},
+		 tab{nullptr}
 	{ }
 
 		// Constructs empty stack. You can use the fact that
 		// nullptr is very similar to pointer to zero-length segment.
 
-	stack( std::initializer_list<double> d );
+	stack( std::initializer_list<double> d )
+		: current_size { d.size() },
+		  current_capacity { d.size() }
+	{
+		tab = new double[ d.size() ];
+		size_t i=0;
+		for( double t : d )
+			tab[i++] = t;
+	}
 		// So that you can write s = { 1,2,3 };
 		// You need d. size( ) and for( double d : s ) .....
 
-	stack( const stack& s );
+	stack( const stack& s )
+		: current_size { s.current_size },
+		  current_capacity { s.current_capacity }
+	{
+		tab = new double[ current_capacity ];
+		for( size_t i = 0; i < current_size; ++i )
+			tab[i] = s.tab[i];
+	}
 
-	~stack( );
+	~stack( )
+	{
+		delete[] tab;
+	}
 
 	void operator = ( const stack& s );
 		// These are the essential methods.
