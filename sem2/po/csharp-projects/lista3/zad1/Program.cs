@@ -3,7 +3,6 @@ using ListaLib;
 
 public class Program {
 	public static void Main() {
-		Console.WriteLine("Hello world \n");
 
 		Lista<int> L1 = new Lista<int>();
 		L1.PushFront(2);
@@ -20,12 +19,10 @@ public class Program {
 		Console.WriteLine("PopFront: {0}\n",val);
 
 		val = L1.PopBack();
-		val = L1.PopBack();
-
 
 		Console.WriteLine("PopBack: {0}\n",val);
 
-
+		L1.Wypisz();
 
 	}
 }

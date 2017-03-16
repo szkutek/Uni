@@ -13,9 +13,12 @@ namespace TimeNTonLib{
 		public static TimeNTon Instance(double t){
 		
 			if (t<10.0 || t>12.0) {
-				if (instance2 == null) 
+				if (instance2 == null) {
 					instance2 = new TimeNTon();
-				System.Console.WriteLine("pojedyncza instacja\n");
+					System.Console.WriteLine("tworzy pojedyncza instacje\n");
+
+				}
+				System.Console.WriteLine("zwraca pojedyncza instacje\n");
 				return instance2;
 			}
 			else {

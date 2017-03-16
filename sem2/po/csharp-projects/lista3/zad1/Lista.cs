@@ -32,6 +32,13 @@ namespace ListaLib {
 			this.last = e;
 		}
 
+		public int IsEmpty(){
+			if (this.first == null){
+				return 1;
+			}
+			return 0;
+		}
+
 		public void PushFront(T val){
 			if (this.first == null){
 				PushFirst(val);
