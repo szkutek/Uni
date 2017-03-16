@@ -33,6 +33,5 @@ exp2(_,0,1):-!.
 exp2(X,Y,R):-
 	Y2 is Y-1,	
 	exp2(X,Y2,R2),
-	!,
 	R is R2 * X.
 
