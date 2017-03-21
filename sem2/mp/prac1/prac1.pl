@@ -37,8 +37,8 @@
 % 
 % Do poprawnego działania sprawdzaczki należy jeszcze zmodyfikować
 % poniższe dwa wiersze:
-:- use_module(imie_nazwisko_tests).
-:- use_module(imie_nazwisko).
+:- use_module(agnieszka_szkutek_tests).
+:- use_module(agnieszka_szkutek).
 
 :- op(200, fx, ~).
 :- op(500, xfy, v).
@@ -109,7 +109,7 @@ variable_match((X, V), (X, V)).
 
 validate_test(Name, Type, Input, Timeout, Ans) :-
   atom(Name),
-  ground(Type), member(Type, [validity, performane]),
+  ground(Type), member(Type, [validity, performance]),
   acyclic_term(Input), ground(Input), validate_input(Input),
   number(Timeout), Timeout >= 500, Timeout =< 10000,
   acyclic_term(Ans), ground(Ans), validate_ans(Ans).
