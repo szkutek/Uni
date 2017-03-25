@@ -38,19 +38,18 @@ public:
 
     stack(std::initializer_list<double> d)
             : current_size{d.size()},
-              current_capacity{d.size()} {
-        tab = new double[d.size()];
+              current_capacity{d.size()},
+        	  tab{new double[d.size()]} 
+	{
         size_t i = 0;
         for (double t : d)
             tab[i++] = t;
     }
-    // So that you can write s = { 1,2,3 };
-    // You need d. size( ) and for( double d : s ) .....
 
     stack(const stack &s)
             : current_size{s.current_size},
-              current_capacity{s.current_capacity} {
-        tab = new double[current_capacity];
+              current_capacity{s.current_capacity},
+        	  tab{new double[current_capacity]}  {
         for (size_t i = 0; i < current_size; ++i)
             tab[i] = s.tab[i];
     }

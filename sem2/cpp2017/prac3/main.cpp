@@ -2,7 +2,7 @@
 #include "stack.h"
 #include <iostream>
 
-int main(int argc, char *argv[]) {
+int main() {
     stack s = {1,2,3};
     std::cout << s << "\n";
 

@@ -22,7 +22,7 @@ void stack::ensure_capacity(size_t c) {
 void stack::operator=(const stack &s) {
 
     current_size = s.current_size;
-    current_capacity = s.current_capacity;
+    current_capacity = s.current_size;
 
     double *newtab = new double[current_size];
     for (size_t i = 0; i < current_size; ++i)
@@ -39,19 +39,16 @@ void stack::operator=(const stack &s) {
 void stack::push(double d) {
 
     ensure_capacity(current_size + 1);
+    tab[current_size] = d;
     current_size++;
-
-    tab[current_size - 1] = d;
-
 }  // Use ensure_capacity, so that
 // pushing is always possible, as
 // long as memory is not full.
 
 void stack::pop() {
-    if (current_size) {
-        tab[current_size-1] = 0;
-        current_size--;
-    }
+    if (current_size == 0)
+        throw new std::runtime_error("Stack is empty.");
+    current_size--;
 }
 // Remove one element from the stack. It’s OK to write
 // code that crashes, as long as you write clearly what are
@@ -64,8 +61,8 @@ void stack::pop() {
 //                not met. Don’t use assert.
 
 void stack::reset(size_t s) {
-    while (current_size > s)
-        this->pop();
+// optymalizacja
+        current_size = s;
 }
 // Pops element until stack has size s.
 // PRECONDITION: s <= current_size.

@@ -1,4 +1,4 @@
-Flags = -Wreturn-type -pedantic -pedantic-errors -Wundef -std=c++11 
+Flags = -std=c++11 -Wall -Wextra
 CPP = g++
 
 
