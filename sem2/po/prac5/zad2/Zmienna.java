@@ -14,6 +14,11 @@ public class Zmienna extends Lisc {
     }
 
     @Override
+    public Wyrazenie pochodna() {
+        return new Stala(1);
+    }
+
+    @Override
     public String toString() {
         return "Zmienna{" + nazwa + "}";
     }

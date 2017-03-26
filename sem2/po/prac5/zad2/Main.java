@@ -1,5 +1,7 @@
 package zad2;
 
+import zad4.Pochodna;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -17,5 +19,10 @@ public class Main {
         Wyrazenie w2 = new Podziel(new Pomnoz(x, d), b);
         System.out.println(w2);
         System.out.println(w2.oblicz());
+
+        Wyrazenie w3 = new Dodaj(new Dodaj(new Stala(4), new Zmienna("x")), new Odejmij(new Stala(3), new Stala(2)));
+        Wyrazenie p = new Pochodna(w3);
+        System.out.println(w3.pochodna());
+
     }
 }

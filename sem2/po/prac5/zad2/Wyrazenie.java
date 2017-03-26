@@ -3,8 +3,10 @@ package zad2;
 import java.util.Hashtable;
 
 
-public abstract class Wyrazenie {
+public interface Wyrazenie {
 
-    public abstract int oblicz();
+    int oblicz();
+
+    Wyrazenie pochodna();
 
 }

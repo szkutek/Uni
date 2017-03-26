@@ -12,6 +12,11 @@ public class Stala extends Lisc {
     }
 
     @Override
+    public Wyrazenie pochodna() {
+        return new Stala(0);
+    }
+
+    @Override
     public String toString() {
         return "Stala{wartosc = " + wartosc + "}";
     }
