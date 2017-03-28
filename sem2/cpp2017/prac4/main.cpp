@@ -53,6 +53,11 @@ int main(int argc, char *argv[]) {
     std::cout << "s2 == \"hello\" " << (s2 == "hello") << "\n";
     std::cout << "s2 <= \"hello\" " << (s2 <= "hello") << "\n";
 
+    string s1 = "aaaa";
+    string s4 = "bb";
+
+    std::cout << " aaaa < bb  " << (s1 < s4) << "\n";
+
 }
 
 

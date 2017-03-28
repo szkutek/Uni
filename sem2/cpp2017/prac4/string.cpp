@@ -44,16 +44,18 @@ bool operator!=(const string &s1, const string &s2) {
 }
 
 bool operator<(const string &s1, const string &s2) {
-    if (s1.get_len() < s2.get_len()) return true;
-
-    for (size_t i = 0; i < s1.get_len(); i++)
-        if (s1[i] >= s2[i]) return false;
-
-    return true;
+    // aa<ab
+    size_t i = 0;
+    size_t min = (s1.get_len() < s2.get_len()) ? s1.get_len() : s2.get_len();
+    while (i < min && s1[i] == s2[i])
+        i++;
+    if (i == s2.get_len()) return false;
+    if (i == s1.get_len()) return true;
+    return s1[i] < s2[i];
 }
 
 bool operator>(const string &s1, const string &s2) {
-    return !(s1 < s2) && s1 != s2;
+    return s2 < s1;
 }
 
 bool operator<=(const string &s1, const string &s2) {
@@ -63,6 +65,3 @@ bool operator<=(const string &s1, const string &s2) {
 bool operator>=(const string &s1, const string &s2) {
     return !(s1 < s2);
 }
-
-
-
