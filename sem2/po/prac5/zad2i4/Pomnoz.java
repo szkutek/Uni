@@ -18,13 +18,13 @@ public class Pomnoz extends Wezel {
         Wyrazenie zero = new Stala(0);
         Wyrazenie jeden = new Stala(1);
 
-        if (lewaPochodna == zero && prawaPochodna == zero) {
-            return new Stala(0);
-        } else if (lewaPochodna == zero && prawaPochodna == jeden) {
+        if (lewaPochodna.equals(zero) && prawaPochodna.equals(zero)) {
+            return zero;
+        } else if (lewaPochodna.equals(zero) && prawaPochodna.equals(jeden)) {
             return lewy;
-        } else if (lewaPochodna == jeden && prawaPochodna == zero) {
+        } else if (lewaPochodna.equals(jeden) && prawaPochodna.equals(zero)) {
             return prawy;
-        } else if (lewaPochodna == jeden && prawaPochodna == jeden) {
+        } else if (lewaPochodna.equals(jeden) && prawaPochodna.equals(jeden)) {
             return new Dodaj(lewy, prawy);
         } else {
             return new Dodaj(new Pomnoz(lewy.pochodna(), prawy), new Pomnoz(lewy, prawy.pochodna()));
@@ -32,12 +32,13 @@ public class Pomnoz extends Wezel {
     }
 
     @Override
-    public String toString() {
-        return "Pomnoz{lewy = " + lewy + ", prawy = " + prawy + "}";
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public String toString() {
+//        return "Pomnoz{lewy = " + lewy + ", prawy = " + prawy + "}";
+        return "( " + lewy + " * " + prawy + " )";
     }
 }

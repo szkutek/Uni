@@ -12,7 +12,7 @@ public class Podziel extends Wezel {
         if (res == 0) {
             throw new IllegalArgumentException("Nie mozna dzielic przez 0.");
         }
-        return lewy.oblicz() / prawy.oblicz();
+        return lewy.oblicz() / res;
     }
 
     @Override
@@ -22,21 +22,28 @@ public class Podziel extends Wezel {
         Wyrazenie zero = new Stala(0);
         Wyrazenie jeden = new Stala(1);
 
-        if (lewaPochodna == zero && prawaPochodna == zero) {
+        if (lewaPochodna.equals(zero) && prawaPochodna.equals(zero)) {
             return new Stala(0);
-        } else if (lewaPochodna == zero && prawaPochodna == jeden) {
+        } else if (lewaPochodna.equals(zero) && prawaPochodna.equals(jeden)) {
             return new Podziel(new Odejmij(zero, lewy), new Pomnoz(prawy, prawy));
-        } else if (lewaPochodna == jeden && prawaPochodna == zero) {
+        } else if (lewaPochodna.equals(jeden) && prawaPochodna.equals(zero)) {
             return new Podziel(jeden, prawy);
-        } else if (lewaPochodna == jeden && prawaPochodna == jeden) {
+        } else if (lewaPochodna.equals(jeden) && prawaPochodna.equals(jeden)) {
             return new Podziel(new Odejmij(prawy, lewy), new Pomnoz(prawy, prawy));
         } else {
-            return new Podziel(new Dodaj(new Pomnoz(lewy.pochodna(), prawy), new Pomnoz(lewy, prawy.pochodna())), new Pomnoz(prawy, prawy));
+            return new Podziel(new Odejmij(new Pomnoz(lewy.pochodna(), prawy), new Pomnoz(lewy, prawy.pochodna())), new Pomnoz(prawy, prawy));
         }
     }
 
     @Override
     public String toString() {
-        return "Podziel{lewy = " + lewy + ", prawy = " + prawy + "}";
+//        return "Podziel{lewy = " + lewy + ", prawy = " + prawy + "}";
+        return "( " + lewy + " / " + prawy + ")";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
 }

@@ -19,8 +19,15 @@ public class Zmienna extends Lisc {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+
+    @Override
     public String toString() {
-        return "Zmienna{" + nazwa + "}";
+//        return "Zmienna{" + nazwa + "}";
+        return " " + nazwa + " ";
     }
 }
 

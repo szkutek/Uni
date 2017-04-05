@@ -31,4 +31,23 @@ public abstract class Lisc implements Wyrazenie {
         zmienne.remove(nazwa);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Lisc)) {
+            return false;
+        }
+
+        Lisc castObj = (Lisc) obj;
+
+        return castObj.wartosc == this.wartosc;
+    }
+
+
 }

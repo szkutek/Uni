@@ -17,7 +17,16 @@ public class Stala extends Lisc {
     }
 
     @Override
+//    public String toString() {
+//        return "Stala{wartosc = " + wartosc + "}";
+//    }
     public String toString() {
-        return "Stala{wartosc = " + wartosc + "}";
+        return " " + wartosc + " ";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
 }

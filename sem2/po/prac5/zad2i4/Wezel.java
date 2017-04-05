@@ -38,4 +38,5 @@ public abstract class Wezel implements Wyrazenie {
         result = 31 * result + (prawy != null ? prawy.hashCode() : 0);
         return result;
     }
+
 }
