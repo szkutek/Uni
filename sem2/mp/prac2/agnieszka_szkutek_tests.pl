@@ -19,7 +19,7 @@ resolve_tests(podwojona_zmienna_w_wyniku, p, p v q,~p v q, q).
 resolve_tests(podwojona_zmienna2, p, r v p,~p v r,r).
 
 resolve_tests(rozne_zmienne, q, p v q, ~q v r, p v r).
-resolve_tests(rozne_zmienne_kolejnosc, q, b v q, ~q v a, b v a).
+resolve_tests(rozne_zmienne_kolejnosc, q, b v q, ~q v a, a v b).
 
 
 % Zbiór faktów definiujących testy dla predykatu prove
