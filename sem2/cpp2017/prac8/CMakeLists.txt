@@ -4,5 +4,5 @@ project(prac8)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES solve.cpp fifteen.cpp fifteen.h move.h)
-add_executable(prac5 ${SOURCE_FILES} ${STRING})
+add_executable(prac8 ${SOURCE_FILES} ${STRING})
 

@@ -39,7 +39,10 @@ public:
     }
     // Manhattan distance between positions p1 and p2.
 
-    static position solvedposition(size_t val);
+    static position solvedposition(size_t val) {
+        if (val == 0) return position(dimension - 1, dimension - 1);
+        return position((val - 1) / dimension, (val - 1) % dimension);
+    }
     // Position where val must be in the solution.
 
 public:
@@ -55,10 +58,7 @@ public:
     // A move is illegal if it would move the open place out of the
     // board.
 
-    void makemove(const std::list<move> &moves) {
-        for (move m : moves) makemove(m);
-    }
-
+    void makemove(const std::list<move> &moves);
 
     size_t distance() const;
     // Estimated distance from solution. Use Manhattan distance,
@@ -89,8 +89,6 @@ struct fifteen_equals {
 struct fifteen_hash {
     inline size_t operator( )(const fifteen &f) const { return f.hashvalue(); }
 };
-
-std::ostream &operator<<(std::ostream &stream, const fifteen &f);
 
 #endif
 
