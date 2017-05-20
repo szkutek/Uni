@@ -71,26 +71,23 @@ std::list<move> findpath(const leveltable &levels, fifteen f, unsigned int level
     // All possible moves in a vector.
     std::list<move> path;
 
-//    while (level != 0) {
-//        for (auto m: moves) {
-//            try {
-//                fifteen f1 = f;
-//                f1.makemove(m);
-//
-//                auto t = levels.at(f1);
-//
-//                if (t + 1 == level) {
-//                    level--;
-//                    f = f1;
-//                    path.push_front(m);
-//                    break;
-//                }
-//
-//            }
-//            catch (illegalmove &m) {}
-//            catch (std::out_of_range &m) {}
-//        }
-//    }
+    while (level > 0) {
+        for (auto m : moves) {
+            try {
+
+                f.makemove(m);
+                auto prev = levels.find(f);
+
+                if (prev != levels.end() && prev->second < level) {
+                    level = prev->second;
+                    path.push_front(m);
+                    break;
+                } else f.makemove(-m);
+            }
+            catch (illegalmove &m) {}
+            catch (std::out_of_range &m) {}
+        }
+    }
     return path;
 }
 
@@ -98,14 +95,21 @@ std::list<move> findpath(const leveltable &levels, fifteen f, unsigned int level
 int main(int argc, char *argv[]) {
     leveltable test;
 
-    fifteen f{{1,  3,  4,  12},
-              {5,  2,  7,  11},
-              {9,  6,  14, 10},
-              {13, 15, 0,  8}};
+//    fifteen f{{1,  3,  4,  12},
+//              {5,  2,  7,  11},
+//              {9,  6,  14, 10},
+//              {13, 15, 0,  8}};
+
+    fifteen f{{0, 1, 2},
+              {4, 5, 3},
+              {7, 8, 6}};
+
+//    fifteen f{{0, 2},
+//              {1, 3}};
 
 //    std::cout << f << '\n';
 //    std::cout << f.open_i << ", " << f.open_j << "\n";
-//    f.makemove(move::down);
+//    f.makemove(move::up);
 //    std::cout << f << '\n';
 //    std::cout << f.open_i << ", " << f.open_j << "\n";
 //    f.makemove(move::left);
@@ -124,5 +128,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
-

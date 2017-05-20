@@ -33,22 +33,22 @@ fifteen::fifteen(std::initializer_list<std::initializer_list<size_t >> init) {
 
 void fifteen::makemove(move m) {
     switch (m) {
-        case move::up:
+        case move::down:
             if (open_i == dimension - 1) throw illegalmove(m);
             std::swap(table[open_i][open_j], table[open_i + 1][open_j]);
             open_i += 1;
             break;
-        case move::down:
+        case move::up:
             if (open_i == 0) throw illegalmove(m);
             std::swap(table[open_i][open_j], table[open_i - 1][open_j]);
             open_i -= 1;
             break;
-        case move::left:
+        case move::right:
             if (open_j == dimension - 1) throw illegalmove(m);
             std::swap(table[open_i][open_j], table[open_i][open_j + 1]);
             open_j += 1;
             break;
-        case move::right:
+        case move::left:
             if (open_j == 0) throw illegalmove(m);
             std::swap(table[open_i][open_j], table[open_i][open_j - 1]);
             open_j -= 1;
@@ -65,7 +65,8 @@ size_t fifteen::distance() const {
     size_t d = 0;
     for (size_t i = 0; i < dimension; i++) {
         for (size_t j = 0; j < dimension; j++) {
-            d += distance(position(i, j), solvedposition(table[i][j]));
+            if (i != open_i || j != open_j)
+                d += distance(position(i, j), solvedposition(table[i][j]));
         }
     }
     return d;
@@ -82,10 +83,10 @@ size_t size_t_hash(size_t x) {
 
 size_t fifteen::hashvalue() const {
     size_t hash = 0;
-    int l = 53;
+    const unsigned int l = 53;
     for (size_t i = 0; i < dimension; i++) {
         for (size_t j = 0; j < dimension; j++) {
-            hash += ((l + size_t_hash(table[i][j])) * l + size_t_hash(i)) * l + size_t_hash(j);
+            hash += hash * l + table[i][j];
         }
     }
     return hash;
@@ -104,7 +105,7 @@ bool fifteen::equals(const fifteen &other) const {
 
 std::ostream &operator<<(std::ostream &stream, const fifteen &f) {
     stream << std::setfill(' ');  //fill with spaces
-    for (size_t i = 0; i < f.dimension; i++) {
+    for (size_t i = 0; i < fifteen::dimension; i++) {
         for (size_t j = 0; j < f.dimension; j++) {
             stream << std::setw(5) << f.table[i][j] << std::right;
         }
