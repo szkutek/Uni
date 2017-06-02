@@ -28,7 +28,7 @@ struct rational
          denum = 1;
    }
 
-   rational( ) 
+   rational( )
       : num( 0 ), denum( 1 )
    { }
 
@@ -57,7 +57,7 @@ struct rational
    rational( int num )
       : num( num ), denum(1)
    { }
- 
+
    rational( const bigint& num )
       : num( num ), denum(1)
    { }
@@ -100,12 +100,12 @@ inline rational operator - ( const rational& r1, const rational& r2 )
 
 inline void operator += ( rational& r1, const rational& r2 )
 {
-   r1 = r1 + r2; 
+   r1 = r1 + r2;
 }
 
 inline void operator -= ( rational& r1, const rational& r2 )
 {
-   r1 = r1 - r2; 
+   r1 = r1 - r2;
 }
 
 inline rational operator * ( const rational& r1, const rational& r2 )
