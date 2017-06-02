@@ -31,9 +31,15 @@ struct surface {
         delete ref;
     }
 
-    const surf &getsurf() const { return *ref; }
+    const surf &getsurf() const {
+        return *ref;
+    }
 // There is no non-const access, because
 // changing would be dangerous.
+
+    std::ostream &operator<<(std::ostream &stream, const surface &s);
+
 };
+
 
 #endif //PRAC11_SURFACE_H

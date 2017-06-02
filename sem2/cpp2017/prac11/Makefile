@@ -1,13 +1,9 @@
 
-# Automatically generated Makefile
-# Makefile-generator programmed by Hans de Nivelle, 2002
-
-
 Flags = -Wreturn-type -pedantic -pedantic-errors -Wundef -std=c++11
 CPP = g++
 
 
-main : Makefile   main.o   surf.o
+main : Makefile   main.o   surf.o   surface.o
 	$(CPP) $(Flags) -o main   main.o  surf.o
 
 main.o : Makefile   main.cpp   surf.h
@@ -15,4 +11,7 @@ main.o : Makefile   main.cpp   surf.h
 
 surf.o : Makefile  surf.cpp   surf.h 
 	$(CPP) -c $(Flags) surf.cpp -o  surf.o
+
+surface.o : Makefile  surface.cpp   surface.h surf.h
+	$(CPP) -c $(Flags) surface.cpp -o  surface.o
 
