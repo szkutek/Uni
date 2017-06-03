@@ -37,9 +37,14 @@ struct surface {
 // There is no non-const access, because
 // changing would be dangerous.
 
-    std::ostream &operator<<(std::ostream &stream, const surface &s);
-
 };
+
+std::ostream &operator<<(std::ostream &stream, const surface &s);
+
+
+std::ostream &operator<<(std::ostream &stream, const std::vector<surface> &table);
+
+void print_statistics(const std::vector<surface> &table);
 
 
 #endif //PRAC11_SURFACE_H

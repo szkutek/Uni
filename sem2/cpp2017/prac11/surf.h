@@ -17,7 +17,7 @@ struct surf
     virtual surf* clone( ) const & = 0;
     virtual surf* clone( ) && = 0;
     virtual void print( std::ostream& ) const = 0;
-    virtual ~surf( ) = 0;
+    virtual ~surf( ) {}
 };
 struct rectangle : public surf
 {
