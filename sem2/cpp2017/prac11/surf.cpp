@@ -15,7 +15,7 @@ rectangle::rectangle(double x1, double y1, double x2, double y2)
         : x1(x1), y1(y1), x2(x2), y2(y2) {}
 
 double rectangle::area() const {
-    return fabs((x1 - x2) * (y1 - y2));
+    return std::abs((x1 - x2) * (y1 - y2));
 }
 
 double rectangle::circumference() const {
@@ -32,14 +32,11 @@ rectangle *rectangle::clone() &&{
 }
 
 void rectangle::print(std::ostream &out) const {
+    out << "Rectangle" << "\n";
     out << "(" << x1 << ", " << y2 << ")" << "------";
     out << "(" << x2 << ", " << y2 << ")" << "\n";
     out << "(" << x1 << ", " << y1 << ")" << "------";
     out << "(" << x2 << ", " << y1 << ")" << "\n";
-}
-
-rectangle::~rectangle() {
-
 }
 
 
@@ -55,6 +52,7 @@ double triangle::circumference() const {
 }
 
 void triangle::print(std::ostream &out) const {
+    out << "Triangle" << "\n";
     out << "(x1, y1) = (" << x1 << ", " << y1 << ")" << "\n";
     out << "(x2, y2) = (" << x2 << ", " << y2 << ")" << "\n";
     out << "(x3, y3) = (" << x3 << ", " << y3 << ")" << "\n";
@@ -68,10 +66,9 @@ triangle *triangle::clone() &&{
     return new triangle(std::move(*this));
 }
 
-triangle::~triangle() {
 
-}
-
+circle::circle(double x, double y, double radius)
+        : x(x), y(y), radius(radius) {}
 
 double circle::area() const {
     return M_PI * radius * radius;
@@ -89,16 +86,10 @@ circle *circle::clone() &&{
     return new circle(std::move(*this));
 }
 
-circle::circle(double x, double y, double radius)
-        : x(x), y(y), radius(radius) {}
-
 void circle::print(std::ostream &out) const {
-    out << "Center (x,y) = " << x << ", " << y << ")" << "\n";
+    out << "Circle" << "\n";
+    out << "Center (x,y) = (" << x << ", " << y << ")" << "\n";
     out << "Radius R = " << radius << "\n";
-}
-
-circle::~circle() {
-
 }
 
 
@@ -106,3 +97,8 @@ std::ostream &operator<<(std::ostream &stream, const surf &s) {
     s.print(stream);
     return stream;
 }
+
+//surf::~surf() {}
+//rectangle::~rectangle() {}
+//triangle::~triangle() {}
+//circle::~circle() {}

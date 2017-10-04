@@ -2,15 +2,16 @@
 // Created by szkutek on 02.06.17.
 //
 
-#include <vector>
-#include <iostream>
+
 #include "surface.h"
 
 surface::surface(const surface &s)
         : ref{s.ref->clone()} {}
 
-surface::surface(surface &&s)
-        : ref{std::move(*s.ref).clone()} {}
+surface::surface(surface &&s): ref(s.ref) {
+    s.ref = NULL;
+}
+        //: ref{std::move(*s.ref).clone()} {}
 
 surface::surface(const surf &s)
         : ref{s.clone()} {}

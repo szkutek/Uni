@@ -1,6 +1,5 @@
 % W programie korzystam z fragmentów kodu autorstwa pana Tomasza Wierzbickego (while_parser.pl)
-% :- module(agnieszka_szkutek, [parse/3]).
-% [tokDef,tokVar(main),tokLBracket,tokVar('A'),tokRBracket,tokEq,tokVar('B')]
+:- module(agnieszka_szkutek, [parse/3]).
 
 parse(_, Codes, Program) :-
   phrase(lexer(TokList), Codes),
@@ -10,8 +9,6 @@ parse2(String, Program) :-
   string_to_list(String, Codes),
   phrase(lexer(TokList), Codes),
   phrase(program(Program), TokList).
-
-
 
 
 lexer(Tokens) -->
@@ -100,9 +97,9 @@ identifier(L, Id) -->
 program(P) --> definicje(P).
 
 definicje([D1,D2]) --> definicja(D1),!, definicje(D2).
-definicje([]) --> [], !.
+definicje([]) --> [].
 
-definicja(Def) --> [tokDef],!, identyfikator(Id),
+definicja(Def) --> [tokDef],!, [tokVar(Id)],
     [tokLBracket], wzorzec(Wz), [tokRBracket], [tokEq], wyrazenie(Wyr),
     {Def =.. [def, Id, Wz, Wyr]}.
 
@@ -131,23 +128,51 @@ wyrazenie(W) --> wyrazenie_op(W).
 %     Wyr =.. [op, no, Op, W1, W2].
 
 wyrazenie_op(Wyr) -->
-    w1(W1), op_binarny_2(Op),!, w1(W2),
-    {Wyr =.. [op, no, Op, W1, W2]}
-    ; w1(Wyr).
+    w0(W1), !, opc_wyrazenie_op(Wyr, W1).
+opc_wyrazenie_op(Wyr, A) -->
+    op_binarny_2(Op),!, w0(W2),
+    {A1 =.. [op, no, Op, A, W2]},
+    opc_wyrazenie_op(Wyr, A1).
+opc_wyrazenie_op(Wyr, Wyr) --> [].
+
+w0(Wyr) -->
+    w1(W1), !, opc_w0(Wyr, W1).
+opc_w0(Wyr, A) -->
+    op_binarny_2(Op),!, w1(W2),
+    {A1 =.. [op, no, Op, A, W2]},
+    opc_w0(Wyr, A1).
+opc_w0(Wyr, Wyr) --> [].
+
 w1(Wyr) -->
-    w2(W1), op_binarny_3(Op),!, w1(W2),
-    {Wyr =.. [op, no, Op, W1, W2]}
-    ; w2(Wyr).
-w2(Wyr) --> w2(W1), op_binarny_4(Op),!, w3(W2),
-    {Wyr =.. [op, no, Op, W1, W2]}
-    ; w3(Wyr).
+    w2(W1), !, opc_w1(Wyr, W1).
+opc_w1(Wyr, A) -->
+    op_binarny_3(Op),!, w1(W2),
+    {A1 =.. [op, no, Op, A, W2]},
+    opc_w1(Wyr, A1).
+opc_w1(Wyr, Wyr) --> [].
+
+w2(Wyr) -->
+    w3(W1),
+    !, opc_w2(Wyr, W1).
+opc_w2(Wyr, A) -->
+    op_binarny_4(Op),!, w_unarne(W2),
+    {A1 =.. [op, no, Op, A, W2]},
+    opc_w2(Wyr, A1).
+opc_w2(Wyr, Wyr) --> [].
+
 w3(Wyr) -->
-    w3(W1), op_binarny_5(Op),!, w_unarne(W2),
-    {Wyr =.. [op, no, Op, W1, W2]}.
+    w_unarne(W1),
+    !, opc_w3(Wyr, W1).
+opc_w3(Wyr, A) -->
+    op_binarny_5(Op),!, wyrazenie_proste(W2),
+    {A1 =.. [op, no, Op, A, W2]},
+    opc_w3(Wyr, A1).
+opc_w3(W, W) --> [].
+
 w_unarne(Wyr) -->
-    op_unarny(Op),!, wyrazenie_proste(W1),
-    {Wyr =.. [op, no, Op, W1]}
-    ; wyrazenie_proste(Wyr).
+    op_unarny(Op),!, w_unarne(W1),
+    {Wyr =.. [op, no, Op, W1]}.
+w_unarne(W) --> wyrazenie_proste(W).
 
 
 op_unarny(Op) -->
@@ -155,7 +180,6 @@ op_unarny(Op) -->
     {member( (TokOp, Op), [ (tokMinus, '-'),
                            (tokHash, '#'),
                            (tokTilde, '~')] )}.
-
 op_binarny_2(Op) -->
     [TokOp],
     {member( (TokOp, Op), [ (tokEq, '='),
@@ -182,9 +206,10 @@ op_binarny_5(Op) -->
 
 wyrazenie_proste(W) --> [tokLBracket], wyrazenie(W),
     [tokRBracket],!.
+wyrazenie_proste(W) --> wyrazenie_atomowe(W),!.
 wyrazenie_proste(W) --> wybor_bitu(W),!.
 wyrazenie_proste(W) --> wybor_bitow(W),!.
-wyrazenie_proste(W) --> wyrazenie_atomowe(W),!.
+
 
 wybor_bitu(W) --> wyrazenie_proste(E1), [tokLSqBracket],
     wyrazenie(E2), [tokRSqBracket],

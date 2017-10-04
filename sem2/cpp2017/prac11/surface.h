@@ -6,6 +6,8 @@
 #define PRAC11_SURFACE_H
 
 #include "surf.h"
+#include <vector>
+#include <iostream>
 
 struct surface {
     surf *ref;

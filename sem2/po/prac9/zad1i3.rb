@@ -9,19 +9,19 @@ class Proc
 	def zerowe(a,b,e=0.0001)
 		# a<b, f(a)*f(b)<0 
 		n = 1
-		if self.call(a).abs < e
+		if value(a).abs < e
 			return a
-		elsif self.call(b).abs < e 
+		elsif value(b).abs < e 
 			return b
 		end
 
-		while n<100 do
+		while n<10000 do
 			c = (a+b)/2
-			fc = self.call(c)
+			fc = value(c)
 			if fc.abs <= e
 				return c
 			end
-			if fc * self.call(a) > 0 
+			if fc * value(a) > 0 
 				a = c
 			else 
 				b = c
@@ -40,13 +40,12 @@ class Proc
 		for i in (1..n)
 			s += self.call(a+i*dx)
 		end
-		# s = (s - (self.call(a) + self.call(b))/2.0 ) * dx
 		s = (s + (self.call(a) + self.call(b))/2.0 ) * dx
 		return s
 	end
 
 	def pochodna(x)
-		h = 0.0001
+		h = 0.000001
 		return (self.call(x+h) - self.call(x))/h
 	end
 
@@ -75,9 +74,10 @@ end
 
 
 # p = Proc.new{|x| x*x*Math.sin(x)}
-p = Proc.new{|x| x*x}
+p = Proc.new{|x| x*x-25}
 puts p.value(3.14)
-puts p.zerowe(-1,3.5)
+# puts p.zerowe(2.9,4)
+puts p.zerowe(0,6)
 puts p.pole(0,1)
 puts p.pochodna(4)
-p.rysuj(-10,15)
+p.rysuj(-15,15)

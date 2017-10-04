@@ -8,8 +8,6 @@
 
 #include <ostream>
 
-//TODO destructors
-//TODO jakis blad w skladni? autoformatowanie zle dziala
 struct surf
 {
     virtual double area( ) const = 0;
@@ -17,7 +15,7 @@ struct surf
     virtual surf* clone( ) const & = 0;
     virtual surf* clone( ) && = 0;
     virtual void print( std::ostream& ) const = 0;
-    virtual ~surf( ) {}
+    virtual ~surf( ) = default;
 };
 struct rectangle : public surf
 {
@@ -32,7 +30,7 @@ struct rectangle : public surf
     rectangle* clone( ) && override;
     void print( std::ostream& ) const override;
 
-    ~rectangle();
+    ~rectangle() {}
 };
 struct triangle : public surf
 {
@@ -48,7 +46,7 @@ struct triangle : public surf
     triangle* clone( ) && override;
     void print( std::ostream& ) const override;
 
-    ~triangle();
+    ~triangle() {}
 };
 struct circle : public surf
 {
@@ -64,7 +62,7 @@ struct circle : public surf
     circle* clone( ) && override;
     void print( std::ostream& ) const override;
 
-    ~circle();
+    ~circle() {}
 };
 
 std::ostream &operator<<(std::ostream &stream, const surf &s);
