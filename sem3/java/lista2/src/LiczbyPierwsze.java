@@ -54,8 +54,14 @@ public final class LiczbyPierwsze {
     }
 
     public static long[] naCzynnikiPierwsze(long x) {
-        long[] czynniki = new long[100];
+        long[] czynniki = new long[64];
         int i = 0;
+
+        if (x == 1) {
+            czynniki[i] = 1;
+            return czynniki;
+        }
+
         if (x < 0) {
             czynniki[i] = (long) -1;
             i++;
@@ -95,40 +101,44 @@ public final class LiczbyPierwsze {
 
     }
 
-//    private static void wypisz
+    private static void wypiszCzynnikiPierwsze(long x) {
+        long[] czynniki = naCzynnikiPierwsze(x);
+
+        System.out.print(x + " = " + czynniki[0]);
+
+        for (int i = 1; i < czynniki.length; i++) {
+            if (czynniki[i] == 0) {
+                break;
+            }
+            System.out.print("*");
+            System.out.print(czynniki[i]);
+        }
+        System.out.println("");
+
+    }
 
 
     public static void main(String[] args) {
-        /*
-        System.out.println("-1 = " + Arrays.toString(naCzynnikiPierwsze(-1)));
-        System.out.println("0 =  " + Arrays.toString(naCzynnikiPierwsze(0)));
-        System.out.println("1 = " + Arrays.toString(naCzynnikiPierwsze(1)));
-        System.out.println("2: " + czyPierwsza(10));
-        System.out.println("2.5: " + czyPierwsza(-10));
-        System.out.println("3: " + czyPierwsza(13));
-        System.out.println("4: " + czyPierwsza(-103));
-        System.out.println("5: " + czyPierwsza(-10342341));
-        System.out.println("6: " + czyPierwsza(-23456789));
-
-        System.out.println("7: " + czyPierwsza(-9223372036854775782L));
-        System.out.println("8: " + czyPierwsza(9223372036854775783L));
-        System.out.println("9: " + czyPierwsza(-9223372036854775808L));
-
-        System.out.println("");
-        System.out.println("1: " + Arrays.toString(naCzynnikiPierwsze(-3)));
-        System.out.println("2: " + Arrays.toString(naCzynnikiPierwsze(10)));
-        System.out.println("2.5: " + Arrays.toString(naCzynnikiPierwsze(-10)));
-        System.out.println("3: " + Arrays.toString(naCzynnikiPierwsze(13)));
-        System.out.println("4: " + Arrays.toString(naCzynnikiPierwsze(-103)));
-        System.out.println("5: " + Arrays.toString(naCzynnikiPierwsze(10342341)));
-        System.out.println("5: " + Arrays.toString(naCzynnikiPierwsze(-10342341)));
-        System.out.println("6: " + Arrays.toString(naCzynnikiPierwsze(-23456789)));
-
-        System.out.println("7: " + Arrays.toString(naCzynnikiPierwsze(-9223372036854775782L)));
-        System.out.println("8: " + Arrays.toString(naCzynnikiPierwsze(9223372036854775783L)));*/
-//        System.out.println("9: " + Arrays.toString(naCzynnikiPierwsze(-9223372036854775808L)));
-//        */
-
+/*
+        wypiszCzynnikiPierwsze(-1);
+        wypiszCzynnikiPierwsze(0);
+        wypiszCzynnikiPierwsze(1);
+        wypiszCzynnikiPierwsze(10);
+        wypiszCzynnikiPierwsze(-10);
+        wypiszCzynnikiPierwsze(13);
+        wypiszCzynnikiPierwsze(-103);
+        wypiszCzynnikiPierwsze(-10342341);
+        wypiszCzynnikiPierwsze(-23456789);
+        wypiszCzynnikiPierwsze(-9223372036854775782L);
+        wypiszCzynnikiPierwsze(9223372036854775783L);
+        wypiszCzynnikiPierwsze(-9223372036854775808L);
+*/
+       /* TODO "Jeśli program wywołano bez żadnego parametru, to należy wypisać na standardowym strumieniu
+              dla błędów System.err instrukcję obsługi programu."*/
+        for (String arg : args) {
+            long x = Integer.valueOf(arg);
+            wypiszCzynnikiPierwsze(x);
+        }
 
     }
 
