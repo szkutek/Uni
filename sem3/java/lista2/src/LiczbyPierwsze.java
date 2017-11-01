@@ -1,10 +1,3 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static java.lang.Math.*;
-
 public final class LiczbyPierwsze {
     private final static int POTEGA2 = 21;
     private final static int[] SITO = new int[1 << POTEGA2]; // 2097152
@@ -29,7 +22,6 @@ public final class LiczbyPierwsze {
                 SITO[i] = i;
             }
         }
-
     }
 
 
@@ -44,12 +36,20 @@ public final class LiczbyPierwsze {
             x = -x;
         }
 
-        int sqrtX = (int) Math.sqrt(x);
-        for (int i = 2; i <= sqrtX && i < SITO.length; i++) {
-            if (SITO[i] == i && x % i == 0) {
+        if (x < SITO.length) {
+            return SITO[(int) x] == x;
+        }
+
+        if (x % 2 == 0) {
+            return false;
+        }
+        long sqrtX = (long) Math.sqrt(x);
+        for (long i = 3; i <= sqrtX; i += 2) {
+            if (x % i == 0) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -65,28 +65,27 @@ public final class LiczbyPierwsze {
         if (x < 0) {
             czynniki[i] = (long) -1;
             i++;
-            if (x == Long.MIN_VALUE) {
+            if (x % 2 == 0) {
                 czynniki[i] = 2;
                 i++;
                 x /= 2;
             }
             x = -x;
         }
+//        if (czyPierwsza(x)) {
+//            czynniki[i] = x;
+//            return czynniki;
+//        }
 
-        if (czyPierwsza(x)) {
-            czynniki[i] = x;
-            return czynniki;
-        }
-
-        for (int k = 2; k < SITO.length && x >= SITO.length; k++) {
-            if (SITO[k] == k) {
-                while (x % k == 0) {
-                    czynniki[i] = (long) k;
-                    i++;
-                    x /= k;
-                }
+        long sqrtX = (long) (Math.sqrt(x) + 1);
+        for (long k = 2; k < sqrtX && x >= SITO.length; k++) {
+            while (x % k == 0) {
+                czynniki[i] = k;
+                i++;
+                x /= k;
             }
         }
+
         if (x >= SITO.length) {
             czynniki[i] = x;
             return czynniki;
@@ -113,7 +112,7 @@ public final class LiczbyPierwsze {
             System.out.print("*");
             System.out.print(czynniki[i]);
         }
-        System.out.println("");
+        System.out.println();
 
     }
 
@@ -129,17 +128,22 @@ public final class LiczbyPierwsze {
         wypiszCzynnikiPierwsze(-103);
         wypiszCzynnikiPierwsze(-10342341);
         wypiszCzynnikiPierwsze(-23456789);
+        wypiszCzynnikiPierwsze(4611686014132420609L);
         wypiszCzynnikiPierwsze(-9223372036854775782L);
         wypiszCzynnikiPierwsze(9223372036854775783L);
         wypiszCzynnikiPierwsze(-9223372036854775808L);
+//        -1 0 1 10 -10 13 -103 10342341 -23456789 4611686014132420609L 9223372036854775782L 9223372036854775783L -9223372036854775808L
 */
-       /* TODO "Jeśli program wywołano bez żadnego parametru, to należy wypisać na standardowym strumieniu
-              dla błędów System.err instrukcję obsługi programu."*/
-        for (String arg : args) {
-            long x = Integer.valueOf(arg);
-            wypiszCzynnikiPierwsze(x);
+        if (args.length < 1) {
+            System.out.println("Podaj jedną lub więcej liczb oddzielonych spacjami. " +
+                    "Liczby muszą być całkowite, nieprzekraczające typu long.");
+            System.exit(0);
         }
 
+        for (String arg : args) {
+            long x = Long.valueOf(arg);
+            wypiszCzynnikiPierwsze(x);
+        }
     }
 
 }
