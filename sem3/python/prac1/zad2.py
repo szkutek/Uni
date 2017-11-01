@@ -6,6 +6,12 @@ def zaszyfruj(tekst, klucz):
     print(szyfr)
     return szyfr
 
+def encrypt(text,key):
+	res=""
+	for c in text:
+		res+= c^key
+	return res
+
 
 def odszyfruj(tekst, klucz):
     zaszyfruj(tekst, klucz)
