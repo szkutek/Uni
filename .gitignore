@@ -1,3 +1,5 @@
+out/
+
 # LaTeX
 *.aux
 *.log
