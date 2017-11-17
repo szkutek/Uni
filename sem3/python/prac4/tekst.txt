@@ -1,0 +1,7 @@
+Specifying Type
+
+We can include more parameters within the curly braces of our syntax. We’ll use the format code syntax {field_name:conversion}, where field_name specifies the index number of the argument to the str.format() method that we went through in the reordering section, and conversion refers to the conversion code of the data type that you’re using with the formatter.
+
+The conversion type refers to the the single-character type code that Python uses. The codes that we’ll be using here are s for string, d to display decimal integers (10-base), and f which we’ll use to display floats with decimal places. You can read more about the Format-Specification Mini-Language through Python 3’s official documentation.
+
+Let’s look at an example where we have an integer passed through the method, but want to display it as a float by adding the f conversion type argument:
