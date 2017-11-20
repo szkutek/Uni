@@ -4,7 +4,6 @@ from pprint import pprint
 
 import requests
 from bs4 import BeautifulSoup
-import linki
 
 
 def znajdz_linki(url, wszystkie_linki=[]):
@@ -23,7 +22,6 @@ def znajdz_linki(url, wszystkie_linki=[]):
             try:
                 r = requests.head(href)
                 if r.status_code < 400 and href not in wszystkie_linki:
-                    # print(href)
                     links.append(href)
             except:
                 print('Invalid url: ' + href)
@@ -36,10 +34,7 @@ def zwroc_linki_odlegle_od_url(pocz_url, ilosc_krokow=0):
     for k in range(ilosc_krokow + 1):
         nowe_url = []
         for u in urls:
-            # print('-------------- URL = ' + u)
             nowe_url += znajdz_linki(u, linki)
-            # print(nowe_url)
-
         linki += nowe_url
         urls = nowe_url
     return linki
@@ -67,7 +62,6 @@ def wyszukiwarka(fraza, baza_url):
                 wyniki[found.lower()][url] = 1
             else:
                 wyniki[found.lower()][url] += 1
-
     pprint(wyniki)
     print()
 
@@ -85,6 +79,6 @@ if __name__ == '__main__':
     wyniki = wyszukiwarka('python Ruby kurczak', zwroc_linki_odlegle_od_url(url, 0))
     wypisz_wyniki_wyszukiwania(wyniki)
 
-    print('--------------------------------------------------------------------------------')
-    wyniki = wyszukiwarka('python Ruby kurczak', linki.L)
-    wypisz_wyniki_wyszukiwania(wyniki)
+    # print('\n--------------------------------------------------------------------------------\n')
+    # wyniki = wyszukiwarka('python Ruby kurczak', zwroc_linki_odlegle_od_url(url, 1))
+    # wypisz_wyniki_wyszukiwania(wyniki)
