@@ -1,0 +1,19 @@
+/usr/bin/python3.5 /home/szkutek/Documents/uni/sem3/python/prac5/prac5.py
+{'kurczak': {},
+ 'python': {'https://www.ii.uni.wroc.pl/~marcinm/dyd/python/': 15,
+            'https://www.ii.uni.wroc.pl/~marcinm/dyd/ruby/': 1,
+            'https://zapisy.ii.uni.wroc.pl/users/profile/employee/35': 3},
+ 'ruby': {'https://www.ii.uni.wroc.pl/~marcinm/dyd/obiekty': 6,
+          'https://www.ii.uni.wroc.pl/~marcinm/dyd/ruby/': 9}}
+
+Wyniki wyszukiwania dla kurczak:
+Wyniki wyszukiwania dla ruby:
+- https://www.ii.uni.wroc.pl/~marcinm/dyd/ruby/ (9)
+- https://www.ii.uni.wroc.pl/~marcinm/dyd/obiekty (6)
+Wyniki wyszukiwania dla python:
+- https://www.ii.uni.wroc.pl/~marcinm/dyd/python/ (15)
+- https://zapisy.ii.uni.wroc.pl/users/profile/employee/35 (3)
+- https://www.ii.uni.wroc.pl/~marcinm/dyd/ruby/ (1)
+
+Process finished with exit code 0
+
