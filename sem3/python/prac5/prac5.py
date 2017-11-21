@@ -1,13 +1,11 @@
 import re
-import urllib.request
-from pprint import pprint
-
 import requests
 from bs4 import BeautifulSoup
+from pprint import pprint
 
 
 def znajdz_linki(url, wszystkie_linki=[]):
-    page = urllib.request.urlopen(url)
+    page = requests.get(url).text
     soup = BeautifulSoup(page, 'html.parser')
 
     all_a = soup.find_all('a', href=True)
@@ -53,7 +51,7 @@ def wyszukiwarka(fraza, baza_url):
     wyniki = {s.lower(): {} for s in slowa}
 
     for url in baza_url:
-        page = urllib.request.urlopen(url)
+        page = requests.get(url).text
         soup = BeautifulSoup(page, 'html.parser')
         text = soup.text
         found_on_this_page = p.findall(text)
