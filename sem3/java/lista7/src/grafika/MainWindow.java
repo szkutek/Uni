@@ -130,7 +130,7 @@ public class MainWindow extends JFrame {
 
             jButtons.add(b);
         }
+        jButtons.get(0).setSelected(true);
     }
-
 
 }

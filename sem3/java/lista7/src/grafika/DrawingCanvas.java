@@ -10,7 +10,7 @@ public class DrawingCanvas extends Canvas {
 
     private LineSegment currentLineSegment;
 
-    private Color currentColor = Color.BLACK;
+    private Color currentColor;
 
     private boolean cursorInCanvas = false;
 
@@ -89,7 +89,11 @@ public class DrawingCanvas extends Canvas {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         for (LineSegment line : lineSegments) {
-            g2d.setPaint(line.getColor());
+            if (line == currentLineSegment) {
+                g2d.setPaint(Color.GRAY);
+            } else {
+                g2d.setPaint(line.getColor());
+            }
             g2d.drawLine(line.getP1().x, line.getP1().y, line.getP2().x, line.getP2().y);
         }
     }
