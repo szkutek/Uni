@@ -1,38 +1,47 @@
 import re
+from multiprocessing import Pool
+
 import requests
 from bs4 import BeautifulSoup
 from pprint import pprint
 
 
-def znajdz_linki(url, wszystkie_linki):
+def process_links(a, p):
+    linki = set()
+    href = a['href']
+    if href.strip('#') and href != '\\' and href != '/':
+        if not p.match(href):
+            href = url + href
+        try:
+            r = requests.head(href)
+            if r.status_code < 400:
+                linki += href
+        except:
+            print('Invalid url: ' + href)
+
+
+def znajdz_linki(url):
     page = requests.get(url).text
     soup = BeautifulSoup(page, 'html.parser')
 
     all_a = soup.find_all('a', href=True)
-    links = []
     p = re.compile('http|www')
-
+    links = set()
     for a in all_a:
-        href = a['href']
-        if href.strip('#') and href != '\\' and href != '/':
-            if not p.match(href):
-                href = url + href
-            try:
-                r = requests.head(href)
-                if r.status_code < 400 and href not in wszystkie_linki:
-                    links.append(href)
-            except:
-                print('Invalid url: ' + href)
+        links += process_links(a, p)
+
+    # TODO
+
     return links
 
 
 def zwroc_linki_odlegle_od_url(pocz_url, ilosc_krokow=0):
-    urls = [pocz_url]
-    linki = [pocz_url]
+    urls = set(pocz_url)
+    linki = set()
     for k in range(ilosc_krokow + 1):
-        nowe_url = []
+        nowe_url = set()
         for u in urls:
-            nowe_url += znajdz_linki(u, linki)
+            nowe_url += znajdz_linki(u)
         linki += nowe_url
         urls = nowe_url
     return linki
@@ -40,7 +49,7 @@ def zwroc_linki_odlegle_od_url(pocz_url, ilosc_krokow=0):
 
 def wypisz_wyniki_wyszukiwania(wyniki):
     for slowo, w in wyniki.items():
-        print('Wyniki wyszukiwania dla ' + slowo + ':')
+        print('Wyniki wyszukiwania dla "' + slowo + '":')
         for url, ilosc in w:
             print('- ' + url + ' (' + str(ilosc) + ')')
 
@@ -56,8 +65,10 @@ def wyszukiwarka(fraza, baza_url):
         text = soup.text
         found_on_this_page = p.findall(text)
         for found in found_on_this_page:
-            wyniki[found.lower()] = wyniki.get(found.lower(), 0) + 1
-
+            if url not in wyniki[found.lower()].keys():
+                wyniki[found.lower()][url] = 1
+            else:
+                wyniki[found.lower()][url] += 1
     pprint(wyniki)
     print()
 
@@ -72,7 +83,8 @@ if __name__ == '__main__':
     # links = znajdz_linki(url)
     # links = zwroc_linki_odlegle_od_url(url, 0)
 
-    wyniki = wyszukiwarka('python Ruby kurczak', zwroc_linki_odlegle_od_url(url, 0))
+    baza_linkow = zwroc_linki_odlegle_od_url(url, 0)
+    wyniki = wyszukiwarka('python Ruby kurczak', baza_linkow)
     wypisz_wyniki_wyszukiwania(wyniki)
 
     # print('\n--------------------------------------------------------------------------------\n')

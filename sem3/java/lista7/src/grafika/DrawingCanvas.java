@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawingCanvas extends Canvas {
+public class DrawingCanvas extends Canvas implements Drawable {
     private List<LineSegment> lineSegments;
 
     private LineSegment currentLineSegment;
@@ -83,6 +83,7 @@ public class DrawingCanvas extends Canvas {
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
         this.addKeyListener(keyAdapter);
+
     }
 
     @Override
@@ -114,8 +115,10 @@ public class DrawingCanvas extends Canvas {
         }
     }
 
-    void setCurrentColor(Color currentColor) {
-        this.currentColor = currentColor;
+
+    @Override
+    public void setColor(Color color) {
+        this.currentColor = color;
     }
 }
 
