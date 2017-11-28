@@ -1,3 +1,6 @@
+# PyCharm
+__pycache__/
+
 # IntelliJ
 out/
 *.class
