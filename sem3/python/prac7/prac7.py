@@ -11,6 +11,16 @@ class Direction(enum.Enum):
     S = 2
     E = 3
 
+    def next(self):
+        if self == Direction.N:
+            return Direction.E
+        elif self == Direction.E:
+            return Direction.S
+        elif self == Direction.S:
+            return Direction.W
+        elif self == Direction.W:
+            return Direction.N
+
 
 class PathPoint():
     def __init__(self, point, visible):
@@ -50,10 +60,10 @@ class TurtlePath(Gtk.DrawingArea):
         return True
 
 
-class MyWindow(Gtk.Window):
+class MainWindow(Gtk.Window):
 
     def __init__(self):
-        super(MyWindow, self).__init__(title="Turtle go")
+        super(MainWindow, self).__init__(title="Turtle go")
         self.set_size_request(200, 200)
 
         vbox = Gtk.VBox(spacing=6)
@@ -62,17 +72,19 @@ class MyWindow(Gtk.Window):
         self.init_drawing_area(vbox)
         self.init_controls(vbox)
 
+        self.direction = Direction.N
+
     def init_drawing_area(self, vbox):
         self.turtle = TurtlePath()
         vbox.add(self.turtle)
-        self.direction = Direction.N
 
     def init_controls(self, vbox):
         hbox_options = Gtk.HBox(spacing=6)
         vbox.add(hbox_options)
 
         self.entry = Gtk.Entry()
-        self.entry.set_text("0,10")
+        self.entry.set_text("FWD 10")
+        self.entry.connect("key-release-event", self.on_key_release)
         hbox_options.pack_start(self.entry, True, True, 0)
 
         self.button_go = Gtk.Button(label="Go")
@@ -86,30 +98,43 @@ class MyWindow(Gtk.Window):
 
     def on_button_go_clicked(self, widget):
         text = self.entry.get_text()
-        # command = self.parse_command(text)
-
-        coord = [float(t) for t in text.split(',')]
-
-        prev_point = self.turtle.path[-1].point
-        new_point = (prev_point[0] + coord[0], prev_point[1] + coord[1])
-
-        self.turtle.turtle_coord = PathPoint(new_point, self.visible)
-        self.turtle.path.append(self.turtle.turtle_coord)
-        self.turtle.queue_draw()
+        self.parse_command(text)
 
     def on_visible_toggled(self, button):
         value = button.get_active()
         self.visible = value
-    #
-    # def parse_command(self, text):
-    #     split = text.split(' ')
-    #     if len(split) > 1 and split[0] == 'FWD':
-    #         distance = split[1]
-    #
-    #         if self.direction == Direction.N:
+
+    def parse_command(self, text):
+        split = text.split(' ')
+        if len(split) == 0:
+            return
+
+        command = split[0]
+        prev_point = self.turtle.path[-1].point
+        new_point = None
+        if command == 'TURN90':
+            self.direction = self.direction.next()
+        elif command == 'FWD' and len(split) > 1:
+            distance = float(split[1])
+            if self.direction == Direction.N:
+                new_point = (prev_point[0], prev_point[1] - distance)
+            elif self.direction == Direction.S:
+                new_point = (prev_point[0], prev_point[1] + distance)
+            elif self.direction == Direction.W:
+                new_point = (prev_point[0] - distance, prev_point[1])
+            else:  # self.direction == Direction.E
+                new_point = (prev_point[0] + distance, prev_point[1])
+        elif command == 'CENTER':
+            new_point = self.turtle.path[0].point
+
+        if new_point:
+            self.turtle.turtle_coord = PathPoint(new_point, self.visible)
+            self.turtle.path.append(self.turtle.turtle_coord)
+            self.turtle.queue_draw()
 
 
-win = MyWindow()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+if __name__ == '__main__':
+    win = MainWindow()
+    win.connect("delete-event", Gtk.main_quit)
+    win.show_all()
+    Gtk.main()
