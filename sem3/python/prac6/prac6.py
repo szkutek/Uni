@@ -1,21 +1,21 @@
 import re
-from multiprocessing import Pool
 
+import concurrent.futures
 import requests
 from bs4 import BeautifulSoup
 from pprint import pprint
 
 
-def process_links(a, p):
-    linki = set()
+def processed_href(a, pattern):
     href = a['href']
     if href.strip('#') and href != '\\' and href != '/':
-        if not p.match(href):
+        href = href.split('#')[0]
+        if not pattern.match(href):
             href = url + href
         try:
             r = requests.head(href)
             if r.status_code < 400:
-                linki += href
+                return href
         except:
             print('Invalid url: ' + href)
 
@@ -25,33 +25,49 @@ def znajdz_linki(url):
     soup = BeautifulSoup(page, 'html.parser')
 
     all_a = soup.find_all('a', href=True)
+    links = []
     p = re.compile('http|www')
-    links = set()
+
     for a in all_a:
-        links += process_links(a, p)
-
-    # TODO
-
+        processed = processed_href(a, p)
+        if processed:
+            links.append(processed)
     return links
 
 
 def zwroc_linki_odlegle_od_url(pocz_url, ilosc_krokow=0):
-    urls = set(pocz_url)
-    linki = set()
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=64)
+    urls = [pocz_url]
+    linki = [pocz_url]
+
+    futures = []
     for k in range(ilosc_krokow + 1):
-        nowe_url = set()
+        nowe_url = []
         for u in urls:
-            nowe_url += znajdz_linki(u)
+            futures.append(executor.submit(znajdz_linki, u))
+            # nowe_url += znajdz_linki(u)
+        completed_futures = concurrent.futures.as_completed(futures)  # poczekaj aż wszystkie się zakończą
+        for future in completed_futures:
+            res = future.result()
+            nowe_url += res
+
         linki += nowe_url
         urls = nowe_url
-    return linki
+
+    return set(linki)
 
 
 def wypisz_wyniki_wyszukiwania(wyniki):
     for slowo, w in wyniki.items():
-        print('Wyniki wyszukiwania dla "' + slowo + '":')
+        print('Wyniki wyszukiwania dla ' + slowo + ':')
         for url, ilosc in w:
             print('- ' + url + ' (' + str(ilosc) + ')')
+
+
+def znajdz_na_stronie(url, p):
+    page = requests.get(url).text
+    text = BeautifulSoup(page, 'html.parser').text
+    return url, p.findall(text)
 
 
 def wyszukiwarka(fraza, baza_url):
@@ -59,18 +75,19 @@ def wyszukiwarka(fraza, baza_url):
     p = re.compile('|'.join(slowa), re.IGNORECASE)
     wyniki = {s.lower(): {} for s in slowa}
 
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=64)
+    futures = []  # futures dla znalezionych na stronie
     for url in baza_url:
-        page = requests.get(url).text
-        soup = BeautifulSoup(page, 'html.parser')
-        text = soup.text
-        found_on_this_page = p.findall(text)
-        for found in found_on_this_page:
-            if url not in wyniki[found.lower()].keys():
-                wyniki[found.lower()][url] = 1
-            else:
-                wyniki[found.lower()][url] += 1
-    pprint(wyniki)
-    print()
+        futures.append(executor.submit(znajdz_na_stronie, url, p))
+
+    completed_futures = concurrent.futures.as_completed(futures)
+    for future in completed_futures:
+        znalezione_na_stronie = future.result()
+        url = znalezione_na_stronie[0]
+        for znalezione in znalezione_na_stronie[1]:  # dodaj wyniki do słownika
+            wyniki[znalezione.lower()][url] = wyniki[znalezione.lower()].get(url, 0) + 1
+    # pprint(wyniki)
+    # print()
 
     for s, d in wyniki.items():
         wyniki[s] = sorted(d.items(), key=lambda x: x[1], reverse=True)
@@ -83,8 +100,7 @@ if __name__ == '__main__':
     # links = znajdz_linki(url)
     # links = zwroc_linki_odlegle_od_url(url, 0)
 
-    baza_linkow = zwroc_linki_odlegle_od_url(url, 0)
-    wyniki = wyszukiwarka('python Ruby kurczak', baza_linkow)
+    wyniki = wyszukiwarka('python Ruby kurczak', zwroc_linki_odlegle_od_url(url, 0))
     wypisz_wyniki_wyszukiwania(wyniki)
 
     # print('\n--------------------------------------------------------------------------------\n')

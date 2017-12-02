@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from pprint import pprint
 
 
-def znajdz_linki(url, wszystkie_linki):
+def znajdz_linki(url):
     page = requests.get(url).text
     soup = BeautifulSoup(page, 'html.parser')
 
@@ -15,11 +15,12 @@ def znajdz_linki(url, wszystkie_linki):
     for a in all_a:
         href = a['href']
         if href.strip('#') and href != '\\' and href != '/':
+            href = href.split('#')[0]
             if not p.match(href):
                 href = url + href
             try:
                 r = requests.head(href)
-                if r.status_code < 400 and href not in wszystkie_linki:
+                if r.status_code < 400:
                     links.append(href)
             except:
                 print('Invalid url: ' + href)
@@ -32,10 +33,11 @@ def zwroc_linki_odlegle_od_url(pocz_url, ilosc_krokow=0):
     for k in range(ilosc_krokow + 1):
         nowe_url = []
         for u in urls:
-            nowe_url += znajdz_linki(u, linki)
+            nowe_url += znajdz_linki(u)
         linki += nowe_url
         urls = nowe_url
-    return linki
+    # return linki
+    return set(linki)
 
 
 def wypisz_wyniki_wyszukiwania(wyniki):
@@ -54,12 +56,12 @@ def wyszukiwarka(fraza, baza_url):
         page = requests.get(url).text
         soup = BeautifulSoup(page, 'html.parser')
         text = soup.text
+        # pprint(text)
         found_on_this_page = p.findall(text)
         for found in found_on_this_page:
             wyniki[found.lower()][url] = wyniki[found.lower()].get(url, 0) + 1
-
-    pprint(wyniki)
-    print()
+    # pprint(wyniki)
+    # print()
 
     for s, d in wyniki.items():
         wyniki[s] = sorted(d.items(), key=lambda x: x[1], reverse=True)
