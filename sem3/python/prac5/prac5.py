@@ -56,7 +56,7 @@ def wyszukiwarka(fraza, baza_url):
         text = soup.text
         found_on_this_page = p.findall(text)
         for found in found_on_this_page:
-            wyniki[found.lower()] = wyniki.get(found.lower(), 0) + 1
+            wyniki[found.lower()][url] = wyniki[found.lower()].get(url, 0) + 1
 
     pprint(wyniki)
     print()
