@@ -74,6 +74,7 @@ public class MainWindow extends JFrame {
         colorPanel = new ColorPanel();
         mouseCoordinatesPanel = new MouseCoordinatesPanel();
         drawingPanel = new DrawingPanel(image, mouseCoordinatesPanel, colorPanel);
+        drawingPanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight())); // necessary for scrolling
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.add(new JScrollPane(colorPanel));
@@ -130,13 +131,17 @@ public class MainWindow extends JFrame {
                     case 'p':
                         scale = drawingPanel.getScale();
                         if (scale < maxScaling) {
-                            drawingPanel.setScale(scale + 1);
+                            scale += 1;
+                            drawingPanel.setScale(scale);
+                            drawingPanel.setPreferredSize(new Dimension(image.getWidth() * scale, image.getHeight() * scale));
                         }
                         break;
                     case 'm':
                         scale = drawingPanel.getScale();
                         if (scale > minScaling) {
-                            drawingPanel.setScale(scale - 1);
+                            scale -= 1;
+                            drawingPanel.setScale(scale);
+                            drawingPanel.setPreferredSize(new Dimension(image.getWidth() * scale, image.getHeight() * scale));
                         }
                         break;
                     case 'u':
