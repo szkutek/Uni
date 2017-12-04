@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.sql.Struct;
 
 /**
  * Główne okno aplikacji
@@ -49,16 +48,22 @@ public class MainWindow extends JFrame {
     private BufferedImage image;
 
     /**
+     * Maksymalna wartość przez którą możemy przeskalować BufferedImage
+     */
+    private static int maxScaling = 8;
+    private static int minScaling = 1;
+
+    /**
      * Tworzy główne okno aplikacji
      */
     public MainWindow() {
         this.setTitle("Almost Paint Application");
-        this.setLocation(200, 200);
+        this.setLocationRelativeTo(null);
         this.setResizable(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(windowWidth, windowHeight);
 
-        image = createRandomImage(200, 500);
+        image = createRandomImage(100, 100);
 
 
         JToolBar toolBar = new JToolBar();
@@ -117,19 +122,19 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String command = e.getActionCommand();
-                double scale = 0.0;
+                int scale = 0;
                 switch (command.charAt(0)) {
                     case 'o':
                         break;
                     case 'p':
                         scale = drawingPanel.getScale();
-                        if (scale < 8.0) {
+                        if (scale < maxScaling) {
                             drawingPanel.setScale(scale + 1);
                         }
                         break;
                     case 'm':
                         scale = drawingPanel.getScale();
-                        if (scale > 1.0) {
+                        if (scale > minScaling) {
                             drawingPanel.setScale(scale - 1);
                         }
                         break;

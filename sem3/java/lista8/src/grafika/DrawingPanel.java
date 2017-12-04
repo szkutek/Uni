@@ -4,14 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 class DrawingPanel extends JPanel {
     private BufferedImage image;
     private MouseCoordinatesPanel mouseCoordinatesPanel;
     private ColorPanel colorPanel;
-    private double scale;
+    private int scale;
 
     //    private Color currentColor;
     private boolean cursorInCanvas = false;
@@ -21,18 +20,19 @@ class DrawingPanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             if (cursorInCanvas) {
-                if (e.getX() < image.getWidth() && e.getY() < image.getHeight()) {
-                    Color currentColor = colorPanel.getCurrentColor();
-                    image.setRGB(e.getX(), e.getY(), currentColor.getRGB());
-                }
+                Color currentColor = colorPanel.getCurrentColor();
+                image.setRGB(e.getX() / scale, e.getY() / scale, currentColor.getRGB());
             }
+
             repaint();
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            cursorInCanvas = true;
-            mouseCoordinatesPanel.setCoord(e.getPoint());
+            if (e.getX() < image.getWidth() * scale && e.getY() < image.getHeight() * scale) {
+                cursorInCanvas = true;
+                mouseCoordinatesPanel.setCoord(e.getPoint());
+            }
         }
 
         @Override
@@ -42,9 +42,11 @@ class DrawingPanel extends JPanel {
 
         @Override
         public void mouseExited(MouseEvent e) {
-            cursorInCanvas = false;
-            mouseCoordinatesPanel.setCoord(new Point(0, 0));
-            repaint();
+            if (e.getX() > image.getWidth() * scale || e.getY() > image.getHeight() * scale) {
+                cursorInCanvas = false;
+                mouseCoordinatesPanel.setCoord(new Point(0, 0));
+                repaint();
+            }
         }
     };
 
@@ -55,7 +57,7 @@ class DrawingPanel extends JPanel {
         this.colorPanel = colorPanel;
         this.setSize(image.getWidth(), image.getHeight());
 
-        this.scale = 2.0;
+        this.scale = 1;
 
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
@@ -63,30 +65,20 @@ class DrawingPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        g.drawImage(this.image, 0, 0, this);
+        int w = image.getWidth() * this.scale;
+        int h = image.getHeight() * this.scale;
+
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        int w = getWidth();
-        int h = getHeight();
-        int imageWidth = image.getWidth();
-        int imageHeight = image.getHeight();
-        double x = (w - scale * imageWidth) / 2;
-        double y = (h - scale * imageHeight) / 2;
-        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
-        at.scale(scale, scale);
-        g2.drawRenderedImage(image, at);
-//        g.drawImage(this.image, 0, 0, this);
+        g.drawImage(this.image, 0, 0, w, h, this);
+        this.repaint();
 
     }
 
-    public double getScale() {
+    int getScale() {
         return scale;
     }
 
-    public void setScale(double scale) {
+    void setScale(int scale) {
         this.scale = scale;
     }
 }

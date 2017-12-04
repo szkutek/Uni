@@ -3,9 +3,9 @@ package grafika;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 class ColorPanel extends JPanel {
     private JButton currentColorIndicator;
@@ -23,10 +23,14 @@ class ColorPanel extends JPanel {
     /**
      * Lista nazw kolorów
      */
-    private static final ArrayList<String> colorNames;
+    private static final Map<String, Color> colorNames = new HashMap<>();
 
     static {
-        colorNames = new ArrayList<>(Arrays.asList("Black", "Red", "Green", "Blue", "White"));
+        colorNames.put("Black", Color.BLACK);
+        colorNames.put("Red", Color.RED);
+        colorNames.put("Green", Color.GREEN);
+        colorNames.put("Blue", Color.BLUE);
+        colorNames.put("White", Color.WHITE);
     }
 
 
@@ -85,16 +89,11 @@ class ColorPanel extends JPanel {
         ActionListener buttonListener = e -> {
             JButton b = (JButton) e.getSource();
             String chosenColorName = b.getText();
-            try {
-                Field field = Class.forName("java.awt.Color").getField(chosenColorName.toLowerCase());
-                currentColor = (Color) field.get(null);
-            } catch (NoSuchFieldException | ClassNotFoundException | IllegalAccessException e1) {
-                e1.printStackTrace();
-            }
+            currentColor = colorNames.get(chosenColorName);
             currentColorIndicator.setBackground(currentColor);
         };
 
-        for (String s : colorNames) {
+        for (String s : colorNames.keySet()) {
             JButton b = new JButton(s);
             b.addActionListener(buttonListener);
 
