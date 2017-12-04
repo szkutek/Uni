@@ -1,7 +1,7 @@
 import gi
 
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 import enum
 
 
@@ -33,7 +33,7 @@ class PathPoint():
 class TurtlePath(Gtk.DrawingArea):
     def __init__(self):
         super(TurtlePath, self).__init__()
-        width, height = 300, 300
+        width, height = 500, 500
         self.path_size = 5.
         self.set_size_request(width, height)
         self.connect("draw", self.on_draw)
@@ -64,13 +64,14 @@ class MainWindow(Gtk.Window):
 
     def __init__(self):
         super(MainWindow, self).__init__(title="Turtle go")
-        self.set_size_request(200, 200)
+        self.entry = Gtk.Entry()
 
         vbox = Gtk.VBox(spacing=6)
         self.add(vbox)
 
         self.init_drawing_area(vbox)
         self.init_controls(vbox)
+        self.set_resizable(False)
 
         self.direction = Direction.N
 
@@ -82,7 +83,6 @@ class MainWindow(Gtk.Window):
         hbox_options = Gtk.HBox(spacing=6)
         vbox.add(hbox_options)
 
-        self.entry = Gtk.Entry()
         self.entry.set_text("FWD 10")
         self.entry.connect("key-release-event", self.on_key_release)
         hbox_options.pack_start(self.entry, True, True, 0)
@@ -95,6 +95,11 @@ class MainWindow(Gtk.Window):
         self.check_visible.connect("toggled", self.on_visible_toggled)
         self.check_visible.set_active(True)  # by default the path will be visible
         hbox_options.pack_start(self.check_visible, True, True, 0)
+
+    def on_key_release(self, widget, ev, data=None):
+        if ev.keyval == Gdk.KEY_Return:
+            text = self.entry.get_text()
+            self.parse_command(text)
 
     def on_button_go_clicked(self, widget):
         text = self.entry.get_text()
