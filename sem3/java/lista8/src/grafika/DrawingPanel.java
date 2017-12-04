@@ -12,7 +12,6 @@ class DrawingPanel extends JPanel {
     private ColorPanel colorPanel;
     private int scale;
 
-    //    private Color currentColor;
     private boolean cursorInCanvas = false;
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -23,7 +22,6 @@ class DrawingPanel extends JPanel {
                 Color currentColor = colorPanel.getCurrentColor();
                 image.setRGB(e.getX() / scale, e.getY() / scale, currentColor.getRGB());
             }
-
             repaint();
         }
 
@@ -55,8 +53,6 @@ class DrawingPanel extends JPanel {
         this.image = image;
         this.mouseCoordinatesPanel = mouseCoordinatesPanel;
         this.colorPanel = colorPanel;
-        this.setSize(image.getWidth(), image.getHeight());
-
         this.scale = 1;
 
         this.addMouseListener(mouseAdapter);
@@ -71,7 +67,6 @@ class DrawingPanel extends JPanel {
         super.paintComponent(g);
         g.drawImage(this.image, 0, 0, w, h, this);
         this.repaint();
-
     }
 
     int getScale() {

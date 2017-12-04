@@ -1,5 +1,6 @@
 package grafika;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -96,25 +97,25 @@ public class MainWindow extends JFrame {
 
     private void initToolBar(JToolBar toolBar) {
 
-        JButton buttonOpenFile = createButton("Open", "o", "Open file");
+        JButton buttonOpenFile = createButton("Open", "o", "Open file", "open");
         toolBar.add(buttonOpenFile);
-        JButton buttonPlus = createButton("Plus", "p", "Zoom in");
+        JButton buttonPlus = createButton("Plus", "p", "Zoom in", "zoomIn");
         toolBar.add(buttonPlus);
-        JButton buttonMinus = createButton("Minus", "m", "Zoom out");
+        JButton buttonMinus = createButton("Minus", "m", "Zoom out", "zoomOut");
         toolBar.add(buttonMinus);
-        JButton buttonUp = createButton("Up", "u", "Go to the top of the image");
+        JButton buttonUp = createButton("Up", "u", "Go to the top of the image", "up");
         toolBar.add(buttonUp);
-        JButton buttonDown = createButton("Down", "d", "Go to the bottom of the image");
+        JButton buttonDown = createButton("Down", "d", "Go to the bottom of the image", "down");
         toolBar.add(buttonDown);
-        JButton buttonLeft = createButton("Left", "l", "Go to the left of the image");
+        JButton buttonLeft = createButton("Left", "l", "Go to the left of the image", "left");
         toolBar.add(buttonLeft);
-        JButton buttonRight = createButton("Right", "r", "Go to the right of the image");
+        JButton buttonRight = createButton("Right", "r", "Go to the right of the image", "right");
         toolBar.add(buttonRight);
 
 
     }
 
-    private JButton createButton(String name, String actionCommand, String summary) {
+    private JButton createButton(String name, String actionCommand, String summary, String iconName) {
         JButton button = new JButton(name);
         button.setActionCommand(actionCommand);
 
@@ -150,6 +151,15 @@ public class MainWindow extends JFrame {
                 System.out.println(summary);
             }
         });
+
+        try {
+            Image img = ImageIO.read(getClass().getResource(iconName + ".png"));
+            int scaledW = 20;
+            int scaledH = 20;
+            button.setIcon(new ImageIcon(img.getScaledInstance(scaledW, scaledH, 1)));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         return button;
     }
 
