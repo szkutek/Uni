@@ -2,9 +2,12 @@ package grafika;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.sql.Struct;
 
 /**
  * Główne okno aplikacji
@@ -23,6 +26,7 @@ public class MainWindow extends JFrame {
      * Panel z paskiem narzędzi
      */
     private ToolbarPanel toolbar;
+    private JToolBar toolBar;
 
     /**
      * Panel do wyboru kolorów
@@ -56,6 +60,11 @@ public class MainWindow extends JFrame {
 
         image = createRandomImage(200, 500);
 
+
+        JToolBar toolBar = new JToolBar();
+        initToolBar(toolBar);
+
+
         colorPanel = new ColorPanel();
         mouseCoordinatesPanel = new MouseCoordinatesPanel();
         drawingPanel = new DrawingPanel(image, mouseCoordinatesPanel, colorPanel);
@@ -64,6 +73,7 @@ public class MainWindow extends JFrame {
         splitPane.add(new JScrollPane(colorPanel));
         splitPane.add(new JScrollPane(drawingPanel));
 
+        this.add(toolBar, BorderLayout.NORTH);
         this.add(splitPane, BorderLayout.CENTER);
         this.add(mouseCoordinatesPanel, BorderLayout.SOUTH);
 
@@ -77,6 +87,65 @@ public class MainWindow extends JFrame {
         });
 
         this.setVisible(true);
+    }
+
+    private void initToolBar(JToolBar toolBar) {
+
+        JButton buttonOpenFile = createButton("Open", "o", "Open file");
+        toolBar.add(buttonOpenFile);
+        JButton buttonPlus = createButton("Plus", "p", "Zoom in");
+        toolBar.add(buttonPlus);
+        JButton buttonMinus = createButton("Minus", "m", "Zoom out");
+        toolBar.add(buttonMinus);
+        JButton buttonUp = createButton("Up", "u", "Go to the top of the image");
+        toolBar.add(buttonUp);
+        JButton buttonDown = createButton("Down", "d", "Go to the bottom of the image");
+        toolBar.add(buttonDown);
+        JButton buttonLeft = createButton("Left", "l", "Go to the left of the image");
+        toolBar.add(buttonLeft);
+        JButton buttonRight = createButton("Right", "r", "Go to the right of the image");
+        toolBar.add(buttonRight);
+
+
+    }
+
+    private JButton createButton(String name, String actionCommand, String summary) {
+        JButton button = new JButton(name);
+        button.setActionCommand(actionCommand);
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String command = e.getActionCommand();
+                double scale = 0.0;
+                switch (command.charAt(0)) {
+                    case 'o':
+                        break;
+                    case 'p':
+                        scale = drawingPanel.getScale();
+                        if (scale < 8.0) {
+                            drawingPanel.setScale(scale + 1);
+                        }
+                        break;
+                    case 'm':
+                        scale = drawingPanel.getScale();
+                        if (scale > 1.0) {
+                            drawingPanel.setScale(scale - 1);
+                        }
+                        break;
+                    case 'u':
+                        break;
+                    case 'd':
+                        break;
+                    case 'l':
+                        break;
+                    case 'r':
+                        break;
+                }
+                System.out.println(summary);
+            }
+        });
+        return button;
     }
 
     private BufferedImage createRandomImage(int w, int h) {
