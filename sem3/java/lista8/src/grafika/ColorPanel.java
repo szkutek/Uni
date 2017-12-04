@@ -17,7 +17,7 @@ class ColorPanel extends JPanel {
     /**
      * Kolor wybrany z listy kolorów
      */
-    private Color chosenColor;
+    private Color currentColor;
     private JButton advancedChooser;
 
     /**
@@ -42,12 +42,16 @@ class ColorPanel extends JPanel {
 
         this.advancedChooser.addActionListener(e -> {
             Color initialBackground = currentColorIndicator.getBackground();
-            Color background = JColorChooser.showDialog(null, "Choose color",
+            Color chosenColor = JColorChooser.showDialog(null, "Choose color",
                     initialBackground);
-            if (background != null) {
-                currentColorIndicator.setBackground(background);
+            if (chosenColor != null) {
+                currentColor = chosenColor;
+                currentColorIndicator.setBackground(chosenColor);
             }
         });
+
+        setDefaultBrushColor(Color.BLACK);
+
         buttonPanel.add(advancedChooser);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -56,8 +60,16 @@ class ColorPanel extends JPanel {
         this.add(new JLabel("Choose color:"));
 
         this.add(new JScrollPane(buttonPanel));
+    }
 
-
+    /**
+     * set default brush color as color
+     *
+     * @param color default brush color
+     */
+    private void setDefaultBrushColor(Color color) {
+        currentColor = color;
+        currentColorIndicator.setBackground(color);
     }
 
 
@@ -75,11 +87,11 @@ class ColorPanel extends JPanel {
             String chosenColorName = b.getText();
             try {
                 Field field = Class.forName("java.awt.Color").getField(chosenColorName.toLowerCase());
-                chosenColor = (Color) field.get(null);
+                currentColor = (Color) field.get(null);
             } catch (NoSuchFieldException | ClassNotFoundException | IllegalAccessException e1) {
                 e1.printStackTrace();
             }
-            currentColorIndicator.setBackground(chosenColor);
+            currentColorIndicator.setBackground(currentColor);
         };
 
         for (String s : colorNames) {
@@ -90,14 +102,10 @@ class ColorPanel extends JPanel {
 
             jButtons.add(b);
         }
-        jButtons.get(0).setSelected(true);
     }
 
-    public Color getChosenColor() {
-        return chosenColor;
+    public Color getCurrentColor() {
+        return currentColor;
     }
 
-    public void setChosenColor(Color chosenColor) {
-        this.chosenColor = chosenColor;
-    }
 }

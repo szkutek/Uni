@@ -7,9 +7,11 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 class DrawingPanel extends JPanel {
-    private MouseCoordinatesPanel mouseCoordinatesPanel;
     private BufferedImage image;
-    private Color currentColor;
+    private MouseCoordinatesPanel mouseCoordinatesPanel;
+    private ColorPanel colorPanel;
+
+    //    private Color currentColor;
     private boolean cursorInCanvas = false;
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -17,7 +19,10 @@ class DrawingPanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             if (cursorInCanvas) {
-                image.setRGB(e.getX(), e.getY(), Color.RED.getRGB());
+                if (e.getX() < image.getWidth() && e.getY() < image.getHeight()) {
+                    Color currentColor = colorPanel.getCurrentColor();
+                    image.setRGB(e.getX(), e.getY(), currentColor.getRGB());
+                }
             }
             repaint();
         }
@@ -41,12 +46,12 @@ class DrawingPanel extends JPanel {
         }
     };
 
-    DrawingPanel(BufferedImage image, MouseCoordinatesPanel mouseCoordinatesPanel) {
+    DrawingPanel(BufferedImage image, MouseCoordinatesPanel mouseCoordinatesPanel, ColorPanel colorPanel) {
         super();
         this.image = image;
         this.mouseCoordinatesPanel = mouseCoordinatesPanel;
+        this.colorPanel = colorPanel;
         this.setSize(image.getWidth(), image.getHeight());
-
 
         this.addMouseListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);

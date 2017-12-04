@@ -54,15 +54,15 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(windowWidth, windowHeight);
 
-        image = createRandomImage(100, 100);
+        image = createRandomImage(200, 500);
 
         colorPanel = new ColorPanel();
         mouseCoordinatesPanel = new MouseCoordinatesPanel();
-        drawingPanel = new DrawingPanel(image, mouseCoordinatesPanel);
+        drawingPanel = new DrawingPanel(image, mouseCoordinatesPanel, colorPanel);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        splitPane.add(colorPanel);
-        splitPane.add(drawingPanel);
+        splitPane.add(new JScrollPane(colorPanel));
+        splitPane.add(new JScrollPane(drawingPanel));
 
         this.add(splitPane, BorderLayout.CENTER);
         this.add(mouseCoordinatesPanel, BorderLayout.SOUTH);
