@@ -2,10 +2,14 @@ package grafika;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Główne okno aplikacji
@@ -64,6 +68,10 @@ public class MainWindow extends JFrame {
         this.setSize(windowWidth, windowHeight);
 
         fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPG, PNG and GIF images", "jpg", "JPEG", "png", "gif"));
+
         image = createRandomImage(100, 100);
 
         JToolBar toolBar = new JToolBar();
@@ -99,16 +107,28 @@ public class MainWindow extends JFrame {
 
     private void initToolBar(JToolBar toolBar) {
         JButton buttonOpenFile = createButton("Open", "o", "Open file", "open");
-        buttonOpenFile.addActionListener(e -> {
-//            String command = e.getActionCommand();
-//            JFrame comp = new JFrame();
-//            int returnVal = fileChooser.showOpenDialog(null);
+        buttonOpenFile.addActionListener((ActionEvent e) -> {
+            int returnVal = fileChooser.showOpenDialog(null);
 
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                BufferedImage origImage;
+                try {
+                    origImage = ImageIO.read(selectedFile);
+                    drawingPanel.setImage(origImage);
+                    drawingPanel.setScale(1);
+
+                    drawingPanel.revalidate();
+                    drawingPanel.repaint();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
         toolBar.add(buttonOpenFile);
 
         JButton buttonPlus = createButton("Plus", "p", "Zoom in", "zoomIn");
-        buttonPlus.addActionListener(e -> {
+        buttonPlus.addActionListener((ActionEvent e) -> {
             int scale = drawingPanel.getScale();
             if (scale < maxScaling) {
                 scale += 1;
@@ -119,7 +139,7 @@ public class MainWindow extends JFrame {
         toolBar.add(buttonPlus);
 
         JButton buttonMinus = createButton("Minus", "m", "Zoom out", "zoomOut");
-        buttonMinus.addActionListener(e -> {
+        buttonMinus.addActionListener((ActionEvent e) -> {
             int scale = drawingPanel.getScale();
             if (scale > minScaling) {
                 scale -= 1;
@@ -130,25 +150,25 @@ public class MainWindow extends JFrame {
         toolBar.add(buttonMinus);
 
         JButton buttonUp = createButton("Up", "u", "Go to the top side of the image", "up");
-        buttonUp.addActionListener(e -> {
+        buttonUp.addActionListener((ActionEvent e) -> {
             scrollPaneDrawing.getVerticalScrollBar().setValue(0);
         });
         toolBar.add(buttonUp);
 
         JButton buttonDown = createButton("Down", "d", "Go to the bottom side of the image", "down");
-        buttonDown.addActionListener(e -> {
+        buttonDown.addActionListener((ActionEvent e) -> {
             scrollPaneDrawing.getVerticalScrollBar().setValue(scrollPaneDrawing.getVerticalScrollBar().getMaximum());
         });
         toolBar.add(buttonDown);
 
         JButton buttonLeft = createButton("Left", "l", "Go to the left side of the image", "left");
-        buttonLeft.addActionListener(e -> {
+        buttonLeft.addActionListener((ActionEvent e) -> {
             scrollPaneDrawing.getHorizontalScrollBar().setValue(0);
         });
         toolBar.add(buttonLeft);
 
         JButton buttonRight = createButton("Right", "r", "Go to the right side of the image", "right");
-        buttonRight.addActionListener(e -> {
+        buttonRight.addActionListener((ActionEvent e) -> {
             scrollPaneDrawing.getHorizontalScrollBar().setValue(scrollPaneDrawing.getHorizontalScrollBar().getMaximum());
         });
         toolBar.add(buttonRight);

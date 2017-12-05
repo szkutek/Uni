@@ -16,7 +16,7 @@ class DrawingPanel extends JPanel {
 
     @SuppressWarnings("FieldCanBeLocal")
     private MouseAdapter mouseAdapter = new MouseAdapter() {
-        
+
         @Override
         public void mousePressed(MouseEvent e) {
             if (cursorInCanvas) {
@@ -68,4 +68,11 @@ class DrawingPanel extends JPanel {
         this.scale = scale;
     }
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
 }
