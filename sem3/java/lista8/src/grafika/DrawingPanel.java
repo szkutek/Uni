@@ -21,8 +21,8 @@ class DrawingPanel extends JPanel {
             if (cursorInCanvas) {
                 Color currentColor = colorPanel.getCurrentColor();
                 image.setRGB(e.getX() / scale, e.getY() / scale, currentColor.getRGB());
+                repaint();
             }
-            repaint();
         }
 
         @Override
@@ -43,7 +43,6 @@ class DrawingPanel extends JPanel {
             if (e.getX() > image.getWidth() * scale || e.getY() > image.getHeight() * scale) {
                 cursorInCanvas = false;
                 mouseCoordinatesPanel.setCoord(new Point(0, 0));
-                repaint();
             }
         }
     };
@@ -66,6 +65,7 @@ class DrawingPanel extends JPanel {
 
         super.paintComponent(g);
         g.drawImage(this.image, 0, 0, w, h, this);
+        this.revalidate();
         this.repaint();
     }
 
@@ -76,4 +76,5 @@ class DrawingPanel extends JPanel {
     void setScale(int scale) {
         this.scale = scale;
     }
+
 }

@@ -1,6 +1,8 @@
 package grafika;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ class ColorPanel extends JPanel {
     private Color currentColor;
     private JButton advancedChooser;
 
+    private JList jList;
     /**
      * Lista nazw kolorów
      */
@@ -41,10 +44,15 @@ class ColorPanel extends JPanel {
         currentColorIndicator = new JButton("Current color");
         currentColorIndicator.setFocusable(false);
 
-        initBasicColorButtons();
-        this.advancedChooser = new JButton("More ...");
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
-        this.advancedChooser.addActionListener(e -> {
+
+//        initBasicColorButtons();
+        initBasicColorButtonsJList();
+        advancedChooser = new JButton("More ...");
+
+        advancedChooser.addActionListener(e -> {
             Color initialBackground = currentColorIndicator.getBackground();
             Color chosenColor = JColorChooser.showDialog(null, "Choose color",
                     initialBackground);
@@ -54,7 +62,7 @@ class ColorPanel extends JPanel {
             }
         });
 
-        setDefaultBrushColor(Color.BLACK);
+        setDefaultBrushColor();
 
         buttonPanel.add(advancedChooser);
 
@@ -63,27 +71,42 @@ class ColorPanel extends JPanel {
         this.add(currentColorIndicator);
         this.add(new JLabel("Choose color:"));
 
-        this.add(new JScrollPane(buttonPanel));
+        this.add(buttonPanel);
     }
 
     /**
      * set default brush color as color
-     *
-     * @param color default brush color
      */
-    private void setDefaultBrushColor(Color color) {
-        currentColor = color;
-        currentColorIndicator.setBackground(color);
+    private void setDefaultBrushColor() {
+        jList.setSelectedIndex(0);
+        String chosenColorName = (String) jList.getSelectedValue();
+        currentColor = colorNames.get(chosenColorName);
+        currentColorIndicator.setBackground(currentColor);
+
     }
 
+
+    private void initBasicColorButtonsJList() {
+        jList = new JList(colorNames.keySet().toArray());
+        jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        jList.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    String chosenColorName = (String) jList.getSelectedValue();
+                    currentColor = colorNames.get(chosenColorName);
+                    currentColorIndicator.setBackground(currentColor);
+                }
+            }
+        });
+
+        buttonPanel.add(new JScrollPane(jList));
+    }
 
     /**
      * Metoda pomocnicza. Tworzy przyciski (JButton)
      */
     private void initBasicColorButtons() {
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-
         ArrayList<JButton> jButtons = new ArrayList<>();
 
         ActionListener buttonListener = e -> {

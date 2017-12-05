@@ -49,6 +49,11 @@ public class MainWindow extends JFrame {
     private BufferedImage image;
 
     /**
+     * JScrollPane w którym znajduje się DrawingPanel
+     */
+    private JScrollPane scrollPaneDrawing;
+
+    /**
      * Maksymalna wartość przez którą możemy przeskalować BufferedImage
      */
     private static int maxScaling = 8;
@@ -77,8 +82,10 @@ public class MainWindow extends JFrame {
         drawingPanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight())); // necessary for scrolling
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        splitPane.add(new JScrollPane(colorPanel));
-        splitPane.add(new JScrollPane(drawingPanel));
+        splitPane.add(colorPanel);
+
+        scrollPaneDrawing = new JScrollPane(drawingPanel);
+        splitPane.add(scrollPaneDrawing);
 
         this.add(toolBar, BorderLayout.NORTH);
         this.add(splitPane, BorderLayout.CENTER);
@@ -117,7 +124,8 @@ public class MainWindow extends JFrame {
     }
 
     private JButton createButton(String name, String actionCommand, String summary, String iconName) {
-        JButton button = new JButton(name);
+//        JButton button = new JButton(name);
+        JButton button = new JButton();
         button.setActionCommand(actionCommand);
 
         button.addActionListener(new ActionListener() {
@@ -145,12 +153,16 @@ public class MainWindow extends JFrame {
                         }
                         break;
                     case 'u':
+                        scrollPaneDrawing.getVerticalScrollBar().setValue(0);
                         break;
                     case 'd':
+                        scrollPaneDrawing.getVerticalScrollBar().setValue(scrollPaneDrawing.getVerticalScrollBar().getMaximum());
                         break;
                     case 'l':
+                        scrollPaneDrawing.getHorizontalScrollBar().setValue(0);
                         break;
                     case 'r':
+                        scrollPaneDrawing.getHorizontalScrollBar().setValue(scrollPaneDrawing.getHorizontalScrollBar().getMaximum());
                         break;
                 }
                 System.out.println(summary);
