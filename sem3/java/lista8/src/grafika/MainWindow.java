@@ -3,8 +3,6 @@ package grafika;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -47,6 +45,8 @@ public class MainWindow extends JFrame {
      */
     private JScrollPane scrollPaneDrawing;
 
+    private final JFileChooser fileChooser;
+
     /**
      * Maksymalna wartość przez którą możemy przeskalować BufferedImage
      */
@@ -63,6 +63,7 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(windowWidth, windowHeight);
 
+        fileChooser = new JFileChooser();
         image = createRandomImage(100, 100);
 
         JToolBar toolBar = new JToolBar();
@@ -98,18 +99,58 @@ public class MainWindow extends JFrame {
 
     private void initToolBar(JToolBar toolBar) {
         JButton buttonOpenFile = createButton("Open", "o", "Open file", "open");
+        buttonOpenFile.addActionListener(e -> {
+//            String command = e.getActionCommand();
+//            JFrame comp = new JFrame();
+//            int returnVal = fileChooser.showOpenDialog(null);
+
+        });
         toolBar.add(buttonOpenFile);
+
         JButton buttonPlus = createButton("Plus", "p", "Zoom in", "zoomIn");
+        buttonPlus.addActionListener(e -> {
+            int scale = drawingPanel.getScale();
+            if (scale < maxScaling) {
+                scale += 1;
+                drawingPanel.setScale(scale);
+                drawingPanel.setPreferredSize(new Dimension(image.getWidth() * scale, image.getHeight() * scale));
+            }
+        });
         toolBar.add(buttonPlus);
+
         JButton buttonMinus = createButton("Minus", "m", "Zoom out", "zoomOut");
+        buttonMinus.addActionListener(e -> {
+            int scale = drawingPanel.getScale();
+            if (scale > minScaling) {
+                scale -= 1;
+                drawingPanel.setScale(scale);
+                drawingPanel.setPreferredSize(new Dimension(image.getWidth() * scale, image.getHeight() * scale));
+            }
+        });
         toolBar.add(buttonMinus);
+
         JButton buttonUp = createButton("Up", "u", "Go to the top side of the image", "up");
+        buttonUp.addActionListener(e -> {
+            scrollPaneDrawing.getVerticalScrollBar().setValue(0);
+        });
         toolBar.add(buttonUp);
+
         JButton buttonDown = createButton("Down", "d", "Go to the bottom side of the image", "down");
+        buttonDown.addActionListener(e -> {
+            scrollPaneDrawing.getVerticalScrollBar().setValue(scrollPaneDrawing.getVerticalScrollBar().getMaximum());
+        });
         toolBar.add(buttonDown);
+
         JButton buttonLeft = createButton("Left", "l", "Go to the left side of the image", "left");
+        buttonLeft.addActionListener(e -> {
+            scrollPaneDrawing.getHorizontalScrollBar().setValue(0);
+        });
         toolBar.add(buttonLeft);
+
         JButton buttonRight = createButton("Right", "r", "Go to the right side of the image", "right");
+        buttonRight.addActionListener(e -> {
+            scrollPaneDrawing.getHorizontalScrollBar().setValue(scrollPaneDrawing.getHorizontalScrollBar().getMaximum());
+        });
         toolBar.add(buttonRight);
     }
 
@@ -117,46 +158,6 @@ public class MainWindow extends JFrame {
         JButton button = new JButton();
         button.setActionCommand(actionCommand);
         button.setToolTipText(summary);
-
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String command = e.getActionCommand();
-                int scale = 0;
-                switch (command.charAt(0)) {
-                    case 'o':
-                        break;
-                    case 'p':
-                        scale = drawingPanel.getScale();
-                        if (scale < maxScaling) {
-                            scale += 1;
-                            drawingPanel.setScale(scale);
-                            drawingPanel.setPreferredSize(new Dimension(image.getWidth() * scale, image.getHeight() * scale));
-                        }
-                        break;
-                    case 'm':
-                        scale = drawingPanel.getScale();
-                        if (scale > minScaling) {
-                            scale -= 1;
-                            drawingPanel.setScale(scale);
-                            drawingPanel.setPreferredSize(new Dimension(image.getWidth() * scale, image.getHeight() * scale));
-                        }
-                        break;
-                    case 'u':
-                        scrollPaneDrawing.getVerticalScrollBar().setValue(0);
-                        break;
-                    case 'd':
-                        scrollPaneDrawing.getVerticalScrollBar().setValue(scrollPaneDrawing.getVerticalScrollBar().getMaximum());
-                        break;
-                    case 'l':
-                        scrollPaneDrawing.getHorizontalScrollBar().setValue(0);
-                        break;
-                    case 'r':
-                        scrollPaneDrawing.getHorizontalScrollBar().setValue(scrollPaneDrawing.getHorizontalScrollBar().getMaximum());
-                        break;
-                }
-            }
-        });
 
         try {
             Image img = ImageIO.read(getClass().getResource(iconName + ".png"));

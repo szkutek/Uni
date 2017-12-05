@@ -42,13 +42,11 @@ class ColorPanel extends JPanel {
      */
     ColorPanel() {
         currentColorIndicator = new JButton("Current color");
-        currentColorIndicator.setFocusable(false);
+        currentColorIndicator.setEnabled(false);
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
-
-//        initBasicColorButtons();
         initBasicColorButtonsJList();
         advancedChooser = new JButton("More ...");
 
@@ -82,10 +80,11 @@ class ColorPanel extends JPanel {
         String chosenColorName = (String) jList.getSelectedValue();
         currentColor = colorNames.get(chosenColorName);
         currentColorIndicator.setBackground(currentColor);
-
     }
 
-
+    /**
+     * Metoda pomocnicza tworząca listę do wyboru podstawowych kolorów
+     */
     private void initBasicColorButtonsJList() {
         jList = new JList(colorNames.keySet().toArray());
         jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
