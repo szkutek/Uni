@@ -72,7 +72,7 @@ public class MainWindow extends JFrame {
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JPG, PNG and GIF images", "jpg", "JPEG", "png", "gif"));
 
-        image = createRandomImage(100, 100);
+        image = createRandomImage(300, 300);
 
         JToolBar toolBar = new JToolBar();
         initToolBar(toolBar);
@@ -114,6 +114,7 @@ public class MainWindow extends JFrame {
                 File selectedFile = fileChooser.getSelectedFile();
                 BufferedImage origImage;
                 try {
+//                    TODO fix reading image (now it doesnt update width and height)
                     origImage = ImageIO.read(selectedFile);
                     drawingPanel.setImage(origImage);
                     drawingPanel.setScale(1);
