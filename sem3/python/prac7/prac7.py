@@ -117,7 +117,7 @@ class MainWindow(Gtk.Window):
         command = split[0]
         prev_point = self.turtle.path[-1].point
         new_point = None
-        if command == 'TURN90':
+        if command == 'TRN':
             self.direction = self.direction.next()
         elif command == 'FWD' and len(split) > 1:
             distance = float(split[1])
@@ -129,7 +129,7 @@ class MainWindow(Gtk.Window):
                 new_point = (prev_point[0] - distance, prev_point[1])
             else:  # self.direction == Direction.E
                 new_point = (prev_point[0] + distance, prev_point[1])
-        elif command == 'CENTER':
+        elif command == 'BGN':
             new_point = self.turtle.path[0].point
 
         if new_point:
