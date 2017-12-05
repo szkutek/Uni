@@ -16,6 +16,7 @@ class DrawingPanel extends JPanel {
 
     @SuppressWarnings("FieldCanBeLocal")
     private MouseAdapter mouseAdapter = new MouseAdapter() {
+        
         @Override
         public void mousePressed(MouseEvent e) {
             if (cursorInCanvas) {
@@ -26,21 +27,11 @@ class DrawingPanel extends JPanel {
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseMoved(MouseEvent e) {
             if (e.getX() < image.getWidth() * scale && e.getY() < image.getHeight() * scale) {
                 cursorInCanvas = true;
                 mouseCoordinatesPanel.setCoord(e.getPoint());
-            }
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            mouseCoordinatesPanel.setCoord(e.getPoint());
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            if (e.getX() > image.getWidth() * scale || e.getY() > image.getHeight() * scale) {
+            } else {
                 cursorInCanvas = false;
                 mouseCoordinatesPanel.setCoord(new Point(0, 0));
             }

@@ -23,12 +23,6 @@ public class MainWindow extends JFrame {
     private static final int windowWidth = 800;
 
     /**
-     * Panel z paskiem narzędzi
-     */
-    private ToolbarPanel toolbar;
-    private JToolBar toolBar;
-
-    /**
      * Panel do wyboru kolorów
      */
     private ColorPanel colorPanel;
@@ -71,7 +65,6 @@ public class MainWindow extends JFrame {
 
         image = createRandomImage(100, 100);
 
-
         JToolBar toolBar = new JToolBar();
         initToolBar(toolBar);
 
@@ -104,29 +97,26 @@ public class MainWindow extends JFrame {
     }
 
     private void initToolBar(JToolBar toolBar) {
-
         JButton buttonOpenFile = createButton("Open", "o", "Open file", "open");
         toolBar.add(buttonOpenFile);
         JButton buttonPlus = createButton("Plus", "p", "Zoom in", "zoomIn");
         toolBar.add(buttonPlus);
         JButton buttonMinus = createButton("Minus", "m", "Zoom out", "zoomOut");
         toolBar.add(buttonMinus);
-        JButton buttonUp = createButton("Up", "u", "Go to the top of the image", "up");
+        JButton buttonUp = createButton("Up", "u", "Go to the top side of the image", "up");
         toolBar.add(buttonUp);
-        JButton buttonDown = createButton("Down", "d", "Go to the bottom of the image", "down");
+        JButton buttonDown = createButton("Down", "d", "Go to the bottom side of the image", "down");
         toolBar.add(buttonDown);
-        JButton buttonLeft = createButton("Left", "l", "Go to the left of the image", "left");
+        JButton buttonLeft = createButton("Left", "l", "Go to the left side of the image", "left");
         toolBar.add(buttonLeft);
-        JButton buttonRight = createButton("Right", "r", "Go to the right of the image", "right");
+        JButton buttonRight = createButton("Right", "r", "Go to the right side of the image", "right");
         toolBar.add(buttonRight);
-
-
     }
 
     private JButton createButton(String name, String actionCommand, String summary, String iconName) {
-//        JButton button = new JButton(name);
         JButton button = new JButton();
         button.setActionCommand(actionCommand);
+        button.setToolTipText(summary);
 
         button.addActionListener(new ActionListener() {
             @Override
@@ -165,7 +155,6 @@ public class MainWindow extends JFrame {
                         scrollPaneDrawing.getHorizontalScrollBar().setValue(scrollPaneDrawing.getHorizontalScrollBar().getMaximum());
                         break;
                 }
-                System.out.println(summary);
             }
         });
 
