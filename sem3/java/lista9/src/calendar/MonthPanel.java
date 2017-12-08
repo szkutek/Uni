@@ -3,7 +3,7 @@ package calendar;
 import javax.swing.*;
 
 public class MonthPanel extends JPanel {
-    private MonthModel monthModel;
+    private MonthListModel monthListModel;
 
     private int year;
     private int month;

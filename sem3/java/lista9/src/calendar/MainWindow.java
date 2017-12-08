@@ -12,7 +12,14 @@ public class MainWindow extends JFrame {
         this.setSize(800, 600);
 
         ThreeMonthView threeMonthView = new ThreeMonthView(2017, 11);
-        this.add(threeMonthView, BorderLayout.CENTER);
+        YearPanel yearPanel = new YearPanel(2017);
+
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        tabbedPane.addTab("Year", yearPanel);
+        tabbedPane.addTab("Month", threeMonthView);
+
+        this.add(tabbedPane, BorderLayout.CENTER);
         this.setVisible(true);
     }
 }

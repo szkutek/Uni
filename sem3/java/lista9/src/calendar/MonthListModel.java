@@ -3,10 +3,10 @@ package calendar;
 import javax.swing.*;
 import java.util.GregorianCalendar;
 
-public class MonthModel extends AbstractListModel {
-    int[] daysPerMonth = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private String[] dayNames = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-    private String[] monthNames = {"", "January", "February", "March", "April", "May", "June", "July",
+public class MonthListModel extends AbstractListModel {
+    private static final int[] daysPerMonth = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    private static final String[] dayNames = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    private static final String[] monthNames = {"", "January", "February", "March", "April", "May", "June", "July",
             "August", "September", "October", "November", "December"};
 
     private int year;
@@ -14,7 +14,7 @@ public class MonthModel extends AbstractListModel {
 
     private String[] monthDaysList;
 
-    public MonthModel(int year, int month) {
+    public MonthListModel(int year, int month) {
         this.year = year;
         this.month = month;
 

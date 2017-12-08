@@ -18,20 +18,18 @@ public class ThreeMonthView extends JPanel {
         this.setLayout(new GridLayout(1, 3));
 
         if (month == 1) { // prev is from the year before
-            prevMonth = new MonthView(year - 1, 12);
+            prevMonth = new MonthTableView(year - 1, 12);
         } else {
-            prevMonth = new MonthView(year, month - 1);
+            prevMonth = new MonthTableView(year, month - 1);
         }
 
-        thisMonth = new MonthView(year, month);
+        thisMonth = new MonthTableView(year, month);
 
         if (month == 12) {
-            nextMonth = new MonthView(year + 1, 1);
+            nextMonth = new MonthTableView(year + 1, 1);
         } else {
-            nextMonth = new MonthView(year, month + 1);
+            nextMonth = new MonthTableView(year, month + 1);
         }
-
-
 
         this.add(prevMonth, 0);
         this.add(thisMonth, 1);
