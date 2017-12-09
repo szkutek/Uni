@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 public class MonthTableModel extends AbstractTableModel {
 
     private static final int[] daysPerMonth = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private static final String[] dayNames = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    private static final String[] dayNames = {"", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     private static final String[] monthNames = {"", "January", "February", "March", "April", "May", "June", "July",
             "August", "September", "October", "November", "December"};
 
@@ -16,9 +16,9 @@ public class MonthTableModel extends AbstractTableModel {
 
     public MonthTableModel(int year, int month) {
         monthTableView = new String[rowCount][7];
-        columnCount = dayNames.length;
+        columnCount = dayNames.length - 1;
         for (int i = 0; i < columnCount; i++) {
-            monthTableView[0][i] = dayNames[i];
+            monthTableView[0][i] = dayNames[i + 1];
         }
         for (int i = 1; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
@@ -26,12 +26,12 @@ public class MonthTableModel extends AbstractTableModel {
             }
         }
         GregorianCalendar gregCal = new GregorianCalendar();
-        gregCal.set(year, month, 1);
-        int startCol = gregCal.get(GregorianCalendar.DAY_OF_WEEK) - 1; // TODO fix starting column?
+        gregCal.set(year, month - 1, 1);
+        int startCol = gregCal.get(GregorianCalendar.DAY_OF_WEEK) - 1;
 
         int i = 1;
-        for (int d = 1; d < daysPerMonth[month]; d++) {
-            monthTableView[i][(startCol + d) % 7] = Integer.toString(d);
+        for (int d = 0; d < daysPerMonth[month]; d++) {
+            monthTableView[i][(startCol + d) % 7] = Integer.toString(d + 1);
             if ((startCol + d) % 7 == 6) {
                 i++;
             }

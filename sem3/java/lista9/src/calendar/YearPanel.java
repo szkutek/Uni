@@ -14,14 +14,11 @@ class YearPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
 
         c = new MonthlyTableView[12];
-        int month = 1;
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0, month = 1; i < 12; i++, month++) {
             gbc.gridx = i % 4;
             gbc.gridy = i % 3;
             c[i] = new MonthlyTableView(year, month);
             calendar.add(c[i], gbc);
-            month++;
-
         }
         this.add(calendar, BorderLayout.CENTER);
     }
