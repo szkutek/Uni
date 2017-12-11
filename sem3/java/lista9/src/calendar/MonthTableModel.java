@@ -30,20 +30,50 @@ public class MonthTableModel extends AbstractTableModel {
                 monthTableView[i][j] = " ";
             }
         }
+
+        if (year == 1582 && month == 10) {
+            october1582();
+        } else {
+            GregorianCalendar gregCal = new GregorianCalendar();
+            gregCal.set(year, month - 1, 1);
+
+            int days = daysPerMonth[month];
+            if (month == 2 && gregCal.isLeapYear(year)) {
+                days++;
+            }
+            int startCol = gregCal.get(GregorianCalendar.DAY_OF_WEEK) - 1;
+            int i = 1;
+            for (int d = 0; d < days; d++) {
+                monthTableView[i][(startCol + d) % 7] = Integer.toString(d + 1);
+                if ((startCol + d) % 7 == 6) {
+                    i++;
+                }
+            }
+        }
+        this.fireTableDataChanged();
+    }
+
+    private void october1582() {
         GregorianCalendar gregCal = new GregorianCalendar();
-        gregCal.set(year, month - 1, 1);
+        gregCal.set(1582, 9, 1);
+
         int startCol = gregCal.get(GregorianCalendar.DAY_OF_WEEK) - 1;
 
         int i = 1;
-        for (int d = 0; d < daysPerMonth[month]; d++) {
+        for (int d = 0; d < 4; d++) {
             monthTableView[i][(startCol + d) % 7] = Integer.toString(d + 1);
             if ((startCol + d) % 7 == 6) {
                 i++;
             }
         }
-
-        this.fireTableDataChanged();
+        for (int d = 15; d <= 31; d++) {
+            monthTableView[i][(startCol + d + 3) % 7] = Integer.toString(d);
+            if ((startCol + d + 3) % 7 == 6) {
+                i++;
+            }
+        }
     }
+
 
     @Override
     public int getRowCount() {

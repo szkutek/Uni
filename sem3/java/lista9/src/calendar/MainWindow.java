@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 public class MainWindow extends JFrame {
     private static JTabbedPane tabbedPane;
 
+    private MonthPanel monthPanel;
 
     public MainWindow() {
         this.setTitle("Calendar Application");
@@ -19,7 +20,7 @@ public class MainWindow extends JFrame {
         int year = gregCal.get(GregorianCalendar.YEAR);
         int month = gregCal.get(GregorianCalendar.MONTH);
 
-        MonthPanel monthPanel = new MonthPanel(year, month + 1);
+        monthPanel = new MonthPanel(year, month + 1);
         YearPanel yearPanel = new YearPanel(year);
 
         tabbedPane = new JTabbedPane();
@@ -41,5 +42,9 @@ public class MainWindow extends JFrame {
     public static void setMonthTabName(int year, int month) {
         String monthTabName = MonthListModel.getMonthName(month) + " " + year;
         tabbedPane.setTitleAt(1, monthTabName);
+    }
+
+    public static void updateMonthPanel(int year, int month) {
+
     }
 }

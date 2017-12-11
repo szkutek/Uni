@@ -75,5 +75,7 @@ class YearPanel extends JPanel {
         for (int i = 0; i < 12; i++) {
             c[i].setUpMonth(this.year, i + 1);
         }
+
+
     }
 }
