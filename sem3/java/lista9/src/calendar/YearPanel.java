@@ -1,6 +1,7 @@
 package calendar;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -10,6 +11,7 @@ class YearPanel extends JPanel {
 
     private JButton prevYearButton;
     private JButton nextYearButton;
+    private JSpinner spinner;
 
     private int year;
 
@@ -22,28 +24,34 @@ class YearPanel extends JPanel {
 
         setUpYearPanel(this.year);
 
+        spinner = new JSpinner(new SpinnerNumberModel(year, 0, 2500, 1));
+        spinner.addChangeListener((ChangeEvent e) -> {
+            int val = (int) spinner.getValue();
+            if (val > 0 && val < 2500) {
+                this.year = val;
+                MainWindow.setYearTabName("" + this.year);
+                updateMonths();
+            }
+        });
         prevYearButton = new JButton("Previous year");
         prevYearButton.addActionListener((ActionEvent e) -> {
             this.year--;
-            // TODO JSpinner setValue
             MainWindow.setYearTabName("" + this.year);
-            for (int i = 0; i < 12; i++) {
-                c[i].setUpMonth(this.year, i + 1);
-            }
+            spinner.setValue(this.year);
+            updateMonths();
         });
         nextYearButton = new JButton("Next year");
         nextYearButton.addActionListener((ActionEvent e) -> {
             this.year++;
             MainWindow.setYearTabName("" + this.year);
-            for (int i = 0; i < 12; i++) {
-                c[i].setUpMonth(this.year, i + 1);
-            }
+            spinner.setValue(this.year);
+            updateMonths();
         });
 
-        JToolBar toolBar = new JToolBar();
-//        toolBar.setLayout(new BorderLayout());
 
+        JToolBar toolBar = new JToolBar();
         toolBar.add(prevYearButton);
+        toolBar.add(spinner);
         toolBar.add(nextYearButton);
 
 
@@ -62,6 +70,12 @@ class YearPanel extends JPanel {
             gbc.gridy = i % 3;
             c[i] = new MonthTableView(year, month);
             calendar.add(c[i], gbc);
+        }
+    }
+
+    private void updateMonths() {
+        for (int i = 0; i < 12; i++) {
+            c[i].setUpMonth(this.year, i + 1);
         }
     }
 }
