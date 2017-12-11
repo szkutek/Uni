@@ -18,26 +18,28 @@ public class MainWindow extends JFrame {
         GregorianCalendar gregCal = new GregorianCalendar();
         int year = gregCal.get(GregorianCalendar.YEAR);
         int month = gregCal.get(GregorianCalendar.MONTH);
-        String yearTabName = String.valueOf(year);
-        String monthTabName = String.valueOf(month);
 
-        ThreeMonthView threeMonthView = new ThreeMonthView(year, month + 1);
+        MonthPanel monthPanel = new MonthPanel(year, month + 1);
         YearPanel yearPanel = new YearPanel(year);
 
         tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab(yearTabName, yearPanel);
-        tabbedPane.addTab(monthTabName, threeMonthView);
+        tabbedPane.addTab("", yearPanel);
+        tabbedPane.addTab("", monthPanel);
+        setYearTabName(year);
+        setMonthTabName(year, month + 1);
 
         this.add(tabbedPane, BorderLayout.CENTER);
         this.setVisible(true);
     }
 
-    public static void setYearTabName(String yearTabName) {
+    public static void setYearTabName(int year) {
+        String yearTabName = "Year " + year;
         tabbedPane.setTitleAt(0, yearTabName);
     }
 
-    public static void setMonthTabName(String monthTabName) {
+    public static void setMonthTabName(int year, int month) {
+        String monthTabName = MonthListModel.getMonthName(month) + " " + year;
         tabbedPane.setTitleAt(1, monthTabName);
     }
 }

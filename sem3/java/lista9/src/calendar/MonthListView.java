@@ -12,7 +12,7 @@ public class MonthListView extends JPanel {
 
     public MonthListView(int year, int month) {
         monthListModel = new MonthListModel(year, month);
-        monthName = new JLabel(monthListModel.getMonthName(month));
+        monthName = new JLabel(MonthListModel.getMonthName(month));
         monthDaysList = new JList(monthListModel);
 
         monthDaysList.setCellRenderer(new MonthListRenderer());
@@ -23,4 +23,8 @@ public class MonthListView extends JPanel {
         this.add(monthDaysList, BorderLayout.CENTER);
     }
 
+    public void setUpMonth(int year, int month) {
+        monthListModel.setUpMonth(year, month);
+        monthName.setText(MonthListModel.getMonthName(month));
+    }
 }

@@ -9,24 +9,16 @@ public class MonthListModel extends AbstractListModel {
     private static final String[] monthNames = {"", "January", "February", "March", "April", "May", "June", "July",
             "August", "September", "October", "November", "December"};
 
-    private int year;
-    private int month;
+//    private int year;
+//    private int month;
 
     private String[] monthDaysList;
 
     public MonthListModel(int year, int month) {
-        this.year = year;
-        this.month = month;
+//        this.year = year;
+//        this.month = month;
 
-        monthDaysList = new String[daysPerMonth[month]];
-
-        GregorianCalendar gregCal = new GregorianCalendar();
-        for (int i = 1; i < monthDaysList.length + 1; i++) {
-            gregCal.set(year, month - 1, i);
-            int day = gregCal.get(GregorianCalendar.DAY_OF_WEEK);
-            monthDaysList[i - 1] = i + " " + dayNames[day];
-        }
-        this.fireContentsChanged(this, 0, getSize() - 1);
+        setUpMonth(year, month);
     }
 
     @Override
@@ -40,7 +32,20 @@ public class MonthListModel extends AbstractListModel {
 //        return monthDaysList[index] + " " + monthNames[month];
     }
 
-    public String getMonthName(int month) {
+    public static String getMonthName(int month) {
         return monthNames[month];
     }
+
+    public void setUpMonth(int year, int month) {
+        monthDaysList = new String[daysPerMonth[month]];
+
+        GregorianCalendar gregCal = new GregorianCalendar();
+        for (int i = 1; i < monthDaysList.length + 1; i++) {
+            gregCal.set(year, month - 1, i);
+            int day = gregCal.get(GregorianCalendar.DAY_OF_WEEK);
+            monthDaysList[i - 1] = i + " " + dayNames[day];
+        }
+        this.fireContentsChanged(this, 0, getSize() - 1);
+    }
+
 }

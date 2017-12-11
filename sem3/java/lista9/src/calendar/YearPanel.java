@@ -29,22 +29,17 @@ class YearPanel extends JPanel {
             int val = (int) spinner.getValue();
             if (val > 0 && val < 2500) {
                 this.year = val;
-                MainWindow.setYearTabName("" + this.year);
                 updateMonths();
             }
         });
         prevYearButton = new JButton("Previous year");
         prevYearButton.addActionListener((ActionEvent e) -> {
             this.year--;
-            MainWindow.setYearTabName("" + this.year);
-            spinner.setValue(this.year);
             updateMonths();
         });
         nextYearButton = new JButton("Next year");
         nextYearButton.addActionListener((ActionEvent e) -> {
             this.year++;
-            MainWindow.setYearTabName("" + this.year);
-            spinner.setValue(this.year);
             updateMonths();
         });
 
@@ -74,6 +69,9 @@ class YearPanel extends JPanel {
     }
 
     private void updateMonths() {
+        MainWindow.setYearTabName(this.year);
+        spinner.setValue(this.year);
+
         for (int i = 0; i < 12; i++) {
             c[i].setUpMonth(this.year, i + 1);
         }
