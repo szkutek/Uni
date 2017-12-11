@@ -23,4 +23,7 @@ public class MonthTableView extends JPanel {
         this.add(monthDaysTable, BorderLayout.CENTER);
     }
 
+    public void setUpMonth(int year, int month) {
+        monthTableModel.setUpMonth(year, month);
+    }
 }

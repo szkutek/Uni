@@ -20,6 +20,11 @@ public class MonthTableModel extends AbstractTableModel {
         for (int i = 0; i < columnCount; i++) {
             monthTableView[0][i] = dayNames[i + 1];
         }
+        this.setUpMonth(year, month);
+
+    }
+
+    public void setUpMonth(int year, int month) {
         for (int i = 1; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
                 monthTableView[i][j] = " ";
@@ -36,12 +41,8 @@ public class MonthTableModel extends AbstractTableModel {
                 i++;
             }
         }
-//        for d in range(1,maxdays+1):
-//...     print("({}, {}): {}".format(j, (i+d)%7, d))
-//...     if (i+d)%7 == 6:
-//...             j+=1
 
-
+        this.fireTableDataChanged();
     }
 
     @Override
