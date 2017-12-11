@@ -10,7 +10,11 @@ public class MonthTableView extends JPanel {
     private JLabel monthName;
     private JTable monthDaysTable;
 
+    private int month;
+
     public MonthTableView(int year, int month) {
+        this.month = month;
+
         monthTableModel = new MonthTableModel(year, month);
         monthName = new JLabel(monthTableModel.getMonthName(month));
         monthDaysTable = new JTable(monthTableModel);
@@ -25,5 +29,9 @@ public class MonthTableView extends JPanel {
 
     public void setUpMonth(int year, int month) {
         monthTableModel.setUpMonth(year, month);
+    }
+
+    public int getMonth() {
+        return month;
     }
 }

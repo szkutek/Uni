@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 class YearPanel extends JPanel {
     private JPanel calendar;
@@ -15,8 +17,12 @@ class YearPanel extends JPanel {
 
     private int year;
 
-    public YearPanel(int year) {
+    private MonthPanel monthPanel;
+
+    public YearPanel(int year, MonthPanel monthPanel) {
         this.year = year;
+        this.monthPanel = monthPanel;
+
         calendar = new JPanel();
         calendar.setLayout(new GridLayout(3, 4));
 
@@ -64,6 +70,13 @@ class YearPanel extends JPanel {
             gbc.gridx = i % 4;
             gbc.gridy = i % 3;
             c[i] = new MonthTableView(year, month);
+            c[i].addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    MonthTableView m = (MonthTableView) e.getComponent();
+                    monthPanel.setMonth(m.getMonth());
+                }
+            });
             calendar.add(c[i], gbc);
         }
     }
@@ -75,7 +88,7 @@ class YearPanel extends JPanel {
         for (int i = 0; i < 12; i++) {
             c[i].setUpMonth(this.year, i + 1);
         }
-
+        monthPanel.setYear(this.year);
 
     }
 }

@@ -85,4 +85,14 @@ public class MonthPanel extends JPanel {
             nextMonth.setUpMonth(year, month + 1);
         }
     }
+
+    public void setYear(int year) {
+        this.year = year;
+        updateMonths();
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+        updateMonths();
+    }
 }
