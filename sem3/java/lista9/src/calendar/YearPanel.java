@@ -56,7 +56,7 @@ class YearPanel extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.add(calendar, BorderLayout.CENTER);
-        this.add(toolBar, BorderLayout.SOUTH);
+//        this.add(toolBar, BorderLayout.SOUTH);
     }
 
     private void setUpYearPanel(int year) {

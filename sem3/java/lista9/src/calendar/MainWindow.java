@@ -95,6 +95,7 @@ public class MainWindow extends JFrame {
                 month--;
             }
             monthPanel.setYearAndMonth(year, month);
+            yearPanel.setYear(year);
         });
         JButton nextMonthButton = new JButton("Next month");
         nextMonthButton.addActionListener((ActionEvent e) -> {
@@ -107,6 +108,7 @@ public class MainWindow extends JFrame {
                 month++;
             }
             monthPanel.setYearAndMonth(year, month);
+            yearPanel.setYear(year);
         });
 
         toolBar.add(prevYearButton);

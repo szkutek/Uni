@@ -64,7 +64,7 @@ public class MonthPanel extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.add(new JScrollPane(months3), BorderLayout.CENTER);
-        this.add(toolBar, BorderLayout.SOUTH);
+//        this.add(toolBar, BorderLayout.SOUTH);
     }
 
     private void updateMonths() {

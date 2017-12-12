@@ -29,7 +29,6 @@ public class MonthListModel extends AbstractListModel {
     @Override
     public Object getElementAt(int index) {
         return monthDaysList[index];
-//        return monthDaysList[index] + " " + monthNames[month];
     }
 
     public static String getMonthName(int month) {
