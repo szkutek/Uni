@@ -11,8 +11,6 @@ class YearPanel extends JPanel {
     private JPanel calendar;
     private MonthTableView[] c;
 
-    private JButton prevYearButton;
-    private JButton nextYearButton;
     private JSpinner spinner;
 
     private int year;
@@ -38,12 +36,12 @@ class YearPanel extends JPanel {
                 updateMonths();
             }
         });
-        prevYearButton = new JButton("Previous year");
+        JButton prevYearButton = new JButton("Previous year");
         prevYearButton.addActionListener((ActionEvent e) -> {
             this.year--;
             updateMonths();
         });
-        nextYearButton = new JButton("Next year");
+        JButton nextYearButton = new JButton("Next year");
         nextYearButton.addActionListener((ActionEvent e) -> {
             this.year++;
             updateMonths();
@@ -89,6 +87,10 @@ class YearPanel extends JPanel {
             c[i].setUpMonth(this.year, i + 1);
         }
         monthPanel.setYear(this.year);
+    }
 
+    void setYear(int year) {
+        this.year = year;
+        this.updateMonths();
     }
 }

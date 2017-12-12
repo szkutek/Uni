@@ -86,13 +86,23 @@ public class MonthPanel extends JPanel {
         }
     }
 
-    public void setYear(int year) {
+    void setYear(int year) {
         this.year = year;
         updateMonths();
     }
 
-    public void setMonth(int month) {
+    void setMonth(int month) {
         this.month = month;
         updateMonths();
+    }
+
+    void setYearAndMonth(int year, int month) {
+        this.year = year;
+        this.month = month;
+        updateMonths();
+    }
+
+    public int getMonth() {
+        return month;
     }
 }
