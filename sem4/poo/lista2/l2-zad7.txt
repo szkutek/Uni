@@ -1,0 +1,36 @@
+class Student {
+	UsosWebPage usosWebPage;
+	usosWebPage.show(); 
+	getCourse();
+}
+
+class UsosWebPage {
+	GradeController gradeController;
+	show(){
+		gradeController.getStudentGradeInfo();
+???		pageLayout =
+	}
+}
+
+class GradeController {
+	Student student;
+	getStudentGradeInfo(){
+		student.getCourse();
+		for-each (course) {
+			mark = course.getMark(student)	
+		}
+	}
+}
+
+class course {
+	int value;
+	int getValue(){
+		return value;
+	}
+	int	getMark(Student student){
+		return getValue();
+	}
+}
+
+Odp. NIE
+

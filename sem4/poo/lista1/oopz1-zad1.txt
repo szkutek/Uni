@@ -1,0 +1,76 @@
+http://arch.ug.edu.pl/pl/administracja/_upload/komunikaty/12151/files/Zalacznik_nr_2_do_SIWZ__Opis_przedmiotu_zamowienia.pdf
+
+Functionality
+
+Authentication	Is there any requirement for authentication?
+SYSTEM musi umożliwiać integrację logowania do SYSTEMU z bazą LDAP (S.M.A.R.T)
+
+Online help	Will online help be required?
+Wykonawca udostępni internetowy system zgłoszeń czynny 24 godziny na dobę; (S.M.A.R.T.)
+
+Printing	Is printing capability required?
+SYSTEM musi  umożliwiać  podgląd,  wydruk  i  zapis  w  wersji  elektronicznej  wszystkich raportów zdefiniowanych przez dostawcę (S.M.A.R?.T?)
+
+Reporting	Is reporting capability required? 
+SYSTEM musi zapewniać użytkownikowi wszystkie potrzebne zestawienia: (S? M A R? T?)
+Standardowe raporty dostępne bezpośrednio po wdrożeniu 
+Niestandardowe, definiowane przez użytkownika 
+Sprawozdania  sporządzane  w  trybie  obowiązującym dla  urzędów  państwowych  i uczelni, zgodnie z ich instrukcjami i przepisami
+
+
+
+Usability
+
+Accessibility	Are there any special requirements that relate to the ease with which the system can be exercised (including by novice users)?
+SYSTEM musi  w  prosty  i  intuicyjny  (dostępny  i  zrozumiały  dla  zwykłego  użytkownika aplikacji)  sposób  umożliwiać  wyszukiwanie,  filtrowanie    i    sortowanie    danych    na formularzach wg dowolnych kryteriów z możliwością zapamiętywania tych kryteriów, w celu ponownego ich wykorzystania. (S? M? A? R? T?)
+
+Aesthetics / Consistency	"look and feel" of the system / consistency of the user interface
+SYSTEM powinien umożliwiać  pracę  z  interfejsem SYSTEMU bez  konieczności korzystania z myszki komputerowej (S M A R T?)
+
+
+Reliability
+NIC
+
+
+Performance
+
+Recovery time	Are there any requirements on the time the system takes to recover from a system failure?
+W przypadku  stwierdzenia  bądź  ujawnienia  Wady,  Wykonawca  usunie  tę  Wadę  zgodnie  z 
+zasadami SLA (Service Level Agreement) zawartymi w poniższej Tabeli (str. 6)
+Wada:  Czas Naprawy  Czas Obejścia  Czas Reakcji
+Awaria...
+Błąd  ...
+Usterka..
+(S M A R T)
+
+Response time	Are there any constraints on the time the system takes to respond to particular events, such as user interaction?
+SYSTEM musi zachować taką samą stabilność i wydajność pracy niezależnie od wzrostu liczby użytkowników
+(S? M A? R T?)
+
+Throughput	Are there any special requirements regarding throughput of data supported by the system?
+SYSTEM
+musi być dostarczony z platformą integracyjną - „szyną danych” umożliwiającą zarządzanie komunikacją z aplikacjami zewnętrznymi i wykorzystującą standardy wymiany informacji: EDI, WebServices lub równoważne.
+(SMAR T?)
+
+
+
+Supportability
+
+Adaptability	Are there any special requirements regarding adaptation of the software (including upgrading)?
+SYSTEM musi  posiadać  specyfikację  interfejsu  API  umożliwiającego  rozbudowę SYSTEMU o kolejne komponenty przez różnych dostawców, w tym przez Zamawiającego
+(SMAR)
+
+Localization 	Which human languages need to be supported?
+SYSTEM musi  posiadać  polskie  interfejsy  użytkownika,  w  przypadku  interfejsów administracyjnych  i  do  komponentów  środowiska  dopuszczalne  są  interfejsy  w  języku angielskim
+(SMAR)
+
+Maintainability	Are there any special requirements regarding system maintenance?
+Serwery  aplikacji  muszą  pracować poprawnie  na  platformach  Win64  lub  Linux  (bądź pochodnych), jednakże  zarządzanie  nimi  musi  być  wykonywane  ze  stacji  roboczych pracujących na platformach Win32 lub Win64.
+(SMAR)
+
+
+
+
+
+Pytanie do Performance: Response time:
+Jaki powinien być czas odpowiedzi na pojedyncze zapytanie oraz jaka jest przewidywana liczba użytkowników?
