@@ -12,6 +12,7 @@ def pascal(n) # zad 2
     puts x.join(' ')
     n -= 1
   end
+  puts
 end
 
 
