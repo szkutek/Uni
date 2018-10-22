@@ -56,6 +56,10 @@ class Phonebook
     @groups[group]
   end
 
+  def get_all_groups()
+    @groups.keys
+  end
+
   def get_persons_groups(name)
     res = []
     @groups.each do |group, name_list|
@@ -69,10 +73,6 @@ end
 
 def test_phonebook
   phonebook = Phonebook.new
-  # phonebook.add_person('Ola', '1234', %w(friends work))
-  # phonebook.add_person('Aga', '5678', %w(friends))
-  # puts phonebook.get_number('Ola')
-  # p phonebook.get_group('friends')
   running = true
   puts 'New phonebook'
   while running
@@ -92,6 +92,8 @@ def test_phonebook
       puts phonebook.get_group(input[1])
     when 'get_groups'
       puts phonebook.get_persons_groups(input[1])
+    when 'get_all_groups'
+      puts phonebook.get_all_groups
     when 'end'
       running = false
     else
